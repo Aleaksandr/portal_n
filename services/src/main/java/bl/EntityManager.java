@@ -1,5 +1,6 @@
 package bl;
 
+import beans.Identifiable;
 import exeption.ModelException;
 
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 public interface EntityManager<T extends Identifiable<K>, K> {
 	List<T> getAll() throws ModelException;
 
-	T getByKey(K key) throws ModelException, ModelException;
+	T getByKey(K key) throws ModelException;
 	
 	T save(T entity) throws ModelException;
 
@@ -15,5 +16,5 @@ public interface EntityManager<T extends Identifiable<K>, K> {
 
 	void update(T entity) throws ModelException;
 	
-	int getCount() throws ModelException;
+	//int getCount() throws ModelException;
 }

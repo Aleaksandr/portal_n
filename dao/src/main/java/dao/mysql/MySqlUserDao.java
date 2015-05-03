@@ -1,78 +1,129 @@
 package dao.mysql;
 
+import beans.Comment;
+import beans.User;
+import dao.dao.BaseDbDao;
 import dao.dao.IUserDao;
+import dao.dao.NullableHelper;
 import exeption.DataAccessException;
 import org.apache.log4j.Logger;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by NotePad on 01.05.2015.
  */
-public class MySqlUserDao implements IUserDao {
+public class MySqlUserDao extends BaseDbDao<User, Integer> implements IUserDao {
 
     protected DataSource dataSource;
 
     private static Logger logger = Logger.getLogger(MySqlUserDao.class);
 
-    //protected String contactsTable = "`newsportal`.`users`";
+    protected String attachmentsTable = "`newsportal`.`users`";
 
     public MySqlUserDao(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-    @Override
-    public List getUserAll() throws DataAccessException {
-        return null;
+        super(dataSource);
     }
 
     @Override
-    public Object getUserById(int id) throws DataAccessException {
-        return null;
+    public String getSelectQuery() {
+        return "SELECT `id`, `email`, `pass`, `role` FROM " + attachmentsTable;
     }
 
     @Override
-    public List getUserByEmail() throws DataAccessException {
-        return null;
+    public String getInsertQuery() {
+        return "INSERT INTO " + attachmentsTable + " (`id`, `email`, `pass`, `role`) "
+                + "VALUES (?, ?, ?, ?);";
     }
 
     @Override
-    public List getUserByLogin() throws DataAccessException {
-        return null;
+    public String getUpdateQuery() {
+        return "UPDATE " + attachmentsTable + " SET `email`=?, `pass`=?, `role`=? WHERE `id`=?;";
     }
 
     @Override
-    public Object add(Object object) throws DataAccessException {
-        return null;
+    public String getDeleteQuery() {
+        return "DELETE FROM " + attachmentsTable + " WHERE `id`=?;";
     }
 
     @Override
-    public void update(Object object) throws DataAccessException {
-
+    protected String getCountQuery() {
+        return "SELECT count(*) FROM " + attachmentsTable;
     }
 
     @Override
-    public Object getByKey(Object key) throws DataAccessException {
-        return null;
+    protected List<User> parseResultSet(ResultSet rs) throws DataAccessException {
+        ArrayList<User> result = new ArrayList<User>();
+        try {
+            while (rs.next()) {
+                User user = new User();
+                user.setId(NullableHelper.getInt("id", rs));
+                user.setEmail(rs.getString("email"));
+                user.setPass(rs.getString("pass"));
+                user.setRole(rs.getString("role"));
+                result.add(user);
+            }
+        } catch (Exception e) {
+            throw new DataAccessException(e);
+        }
+        return result;
     }
 
     @Override
-    public List getAll() throws DataAccessException {
-        return null;
+    protected void prepareStatementForInsert(PreparedStatement statement, User user)
+            throws DataAccessException {
+        try {
+            NullableHelper.setInt(statement, 1, user.getId());
+            statement.setString(2, user.getEmail());
+            statement.setString(3, user.getPass());
+            statement.setString(4, user.getRole());
+                    } catch (SQLException e) {
+            throw new DataAccessException(e);
+        }
     }
 
     @Override
-    public void delete(Object object) throws DataAccessException {
-
+    protected void prepareStatementForUpdate(PreparedStatement statement, User user)
+            throws DataAccessException {
+        try {
+            statement.setString(1, user.getEmail());
+            statement.setString(2, user.getPass());
+            statement.setString(3, user.getRole());
+            NullableHelper.setInt(statement, 4, user.getId());
+        } catch (SQLException e) {
+            throw new DataAccessException(e);
+        }
     }
 
     @Override
-    public void deleteByKey(Object key) throws DataAccessException {
-
-    }
-
-    @Override
-    public void refresh(Object object) throws DataAccessException {
-
+    public User getUserByEmail(String email) throws DataAccessException {
+        if (email == null) {
+            return null;
+        }
+        List<User> list;
+        String sql = getSelectQuery();
+        sql += " WHERE email = ?";
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setObject(1, email);
+            ResultSet rs = statement.executeQuery();
+            list = parseResultSet(rs);
+            statement.close();
+        } catch (SQLException e) {
+            throw new DataAccessException(e);
+        }
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+        if (list.size() > 1) {
+            throw new DataAccessException("Received more than one record.");
+        }
+        return list.iterator().next();
     }
 }

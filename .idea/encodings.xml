@@ -1,20 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dao" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dao/src/main/java/dao/dao/BaseDbDao.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dao/src/main/java/dao/dao/DaoFactory.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/dao/src/main/java/dao/dao/RelationshipStatusDao.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dao/src/main/java/dao/dao/NullableHelper.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dao/src/main/java/dao/mysql/MySqlDaoFactory.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dao/src/main/java/dao/mysql/MySqlRelationshipStatusDao.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dao/src/main/java/exeption/DataAccessException.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dao/src/main/resources/db.properties" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/entities" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/entities/src/main/java/beans/Identifiable.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/entities/src/main/java/beans/SearchData.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/services" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/services/src/main/java/bl/AbstractEntityManager.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/services/src/main/java/bl/ContactManager.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/services/src/main/java/bl/EntityManager.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/services/src/main/java/bl/Identifiable.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/services/src/main/java/bl/NewsManager.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/services/src/main/java/bl/simple/DaoFactoryProvider.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/services/src/main/java/bl/simple/SimpleContactManager.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/services/src/main/java/bl/simple/SimpleCommentManager.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/services/src/main/java/bl/simple/SimpleNewsManager.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/services/src/main/java/bl/simple/SimpleUserManager.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/services/src/main/java/exeption/ModelException.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/services/src/main/resources/config.properties" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/src/main/java/webApp/Attributes.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/src/main/java/webApp/FrontCommand.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/src/main/java/webApp/FrontController.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/src/main/java/webApp/commands/ErrorCommand.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/src/main/java/webApp/commands/IndexCommand.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/src/main/java/webApp/commands/OrderCommand.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/src/main/java/webApp/commands/Paths.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/src/main/java/webApp/commands/ProductDetailCommand.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/src/main/java/webApp/commands/SuccessCommand.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/web/pages" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/web/resources" charset="UTF-8" />
   </component>
 </project>

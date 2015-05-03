@@ -11,7 +11,7 @@ import javax.persistence.*;
  * Date: 01.05.15
  */
 @Entity
-public class User {
+public class User implements Identifiable<Integer> {
     private static final long serialVersionUID = 1L;
     @Column
     @NotEmpty

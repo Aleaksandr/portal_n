@@ -1,6 +1,5 @@
 package bl;
 
-
 import dao.dao.GenericDao;
 import exeption.DataAccessException;
 import exeption.ModelException;
@@ -8,7 +7,7 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
-public abstract class AbstractEntityManager<T extends Identifiable<K>, K> implements EntityManager<T, K> {
+public abstract class AbstractEntityManager<T extends beans.Identifiable<K>, K> implements EntityManager<T, K> {
 
 	abstract protected Logger getLogger();
 
@@ -51,8 +50,7 @@ public abstract class AbstractEntityManager<T extends Identifiable<K>, K> implem
 			getDao().delete(key);
 		} catch (DataAccessException e) {
 			getLogger().error("Failed to remove the entity, id: " + key, e);
-			throw new ModelException("Failed to remove the entity, id: " + key,
-					e);
+			throw new ModelException("Failed to remove the entity, id: " + key, e);
 		}
 	}
 
@@ -69,13 +67,4 @@ public abstract class AbstractEntityManager<T extends Identifiable<K>, K> implem
 
 	}
 
-	@Override
-	public int getCount() throws ModelException {
-		try {
-			return getDao().getCount();
-		} catch (DataAccessException e) {
-			getLogger().error("Failed to get count of entities.", e);
-			throw new ModelException("Failed to get count of entities.", e);
-		}
-	}
 }

@@ -4,6 +4,4 @@ public interface DaoFactory {
 	INewsDao getNewsDao();
 	IUserDao getUserDao();
 	ICommentDao getCommentDao();
-
-	//RelationshipStatusDao getRelationshipStatusDao();
 }

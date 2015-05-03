@@ -46,7 +46,7 @@ public class MySqlDaoFactory implements DaoFactory {
 	private INewsDao newsDao;
 	private IUserDao userDao;
 	private ICommentDao commentDao;
-	//private RelationshipStatusDao relationshipStatusDao;
+
 
 	public MySqlDaoFactory() {
 		dataSource = new DataSource();

@@ -12,7 +12,7 @@ import java.util.Date;
  */
 
 @Entity
-public class New {
+public class New implements Identifiable<Integer> {
     private static final long serialVersionUID = 1L;
     @Column
     @NotEmpty

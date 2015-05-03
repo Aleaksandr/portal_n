@@ -1,8 +1,7 @@
 package dao.dao;
 
+import beans.Identifiable;
 import exeption.DataAccessException;
-import bl.Identifiable;
-
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public abstract class BaseDbDao<T extends Identifiable<K>, K> implements GenericDao<T, K> {
+public abstract class BaseDbDao<T extends Identifiable, K> implements GenericDao<T, K> {
+
 	protected DataSource dataSource;
 
 	protected abstract String getSelectQuery();
@@ -22,6 +22,10 @@ public abstract class BaseDbDao<T extends Identifiable<K>, K> implements Generic
 	protected abstract String getDeleteQuery();
 
 	protected abstract String getCountQuery();
+
+	public BaseDbDao(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
 	
 	protected abstract List<T> parseResultSet(ResultSet rs)
 			throws DataAccessException;
@@ -32,9 +36,6 @@ public abstract class BaseDbDao<T extends Identifiable<K>, K> implements Generic
 	protected abstract void prepareStatementForUpdate(
 			PreparedStatement statement, T object) throws DataAccessException;
 
-	public BaseDbDao(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
 
 	@Override
 	public T getByKey(K key) throws DataAccessException {
@@ -134,7 +135,7 @@ public abstract class BaseDbDao<T extends Identifiable<K>, K> implements Generic
 	}
 
 	@Override
-	public void deleteByKey(K key) throws DataAccessException {
+	public void delete(K key) throws DataAccessException {
 		if (key == null) {
 			return;
 		}
@@ -152,22 +153,4 @@ public abstract class BaseDbDao<T extends Identifiable<K>, K> implements Generic
 			throw new DataAccessException(e);
 		}
 	}
-
-	/*@Override
-	public int getCount() throws DataAccessException {
-		String sql = getCountQuery();
-		int count = 0;
-		try (Connection connection = dataSource.getConnection()) {
-			PreparedStatement statement = connection.prepareStatement(sql);
-			ResultSet rs = statement.executeQuery();
-			if (rs.next()) {
-				count = rs.getInt(1);
-			}
-			statement.close();
-		} catch (SQLException e) {
-			throw new DataAccessException(e);
-		}
-		return count;
-	}
-	*/
 }

@@ -1,13 +1,11 @@
 package dao.dao;
 
+import beans.User;
 import exeption.DataAccessException;
 
 import java.util.List;
 
-public interface IUserDao <T> extends GenericDao {
-    List<T> getUserAll()throws DataAccessException;
-    T getUserById(int id)throws DataAccessException;
-    List<T> getUserByEmail()throws DataAccessException;
-    List<T> getUserByLogin()throws DataAccessException;
+public interface IUserDao extends GenericDao<User, Integer> {
 
+    User getUserByEmail(String email)throws DataAccessException;
 }

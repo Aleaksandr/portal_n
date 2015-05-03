@@ -6,6 +6,9 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="web" />
+          <element id="module-output" name="services" />
+          <element id="module-output" name="entities" />
+          <element id="module-output" name="dao" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="JAX-WS-Glassfish / JAX-WS 2.2 RI / Metro 1.X / JWSDP 2.2" />

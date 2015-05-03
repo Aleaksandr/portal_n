@@ -1,76 +1,159 @@
 package dao.mysql;
 
+import beans.New;
+import dao.dao.BaseDbDao;
 import dao.dao.INewsDao;
+import dao.dao.NullableHelper;
 import exeption.DataAccessException;
 import org.apache.log4j.Logger;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-/**
- * Created by NotePad on 01.05.2015.
- */
-public class MySqlNewsDao implements INewsDao {
+
+public class MySqlNewsDao extends BaseDbDao<New, Integer> implements INewsDao {
 
     protected DataSource dataSource;
+
+    protected String attachmentsTable = "`newsportal`.`news`";
 
     private static Logger logger = Logger.getLogger(MySqlNewsDao.class);
 
     public MySqlNewsDao(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-    @Override
-    public List getNewsAll() throws DataAccessException {
-        return null;
+        super(dataSource);
     }
 
-    @Override
-    public Object getNewsById(int id) throws DataAccessException {
-        return null;
+    private java.sql.Date convertDateToSql(java.util.Date date) {
+        if (date == null) {
+            return null;
+        }
+        return new java.sql.Date(date.getTime());
     }
 
     @Override
-    public List getNewsByAuthor() throws DataAccessException {
-        return null;
+    public String getSelectQuery() {
+        return "SELECT `id`, `title`, `title4menu`, `author`, "
+                + "`date`, `item` FROM " + attachmentsTable;
     }
 
     @Override
-    public List getNewsByDate() throws DataAccessException {
-        return null;
+    public String getInsertQuery() {
+        return "INSERT INTO " + attachmentsTable + " (`id`, `title`, `title4menu`, `author`, "
+                + "`date`, `item`) VALUES (?, ?, ?, ?, ?, ?);";
     }
 
     @Override
-    public Object add(Object object) throws DataAccessException {
-        return null;
+    public String getUpdateQuery() {
+        return "UPDATE " + attachmentsTable + " SET `title`=?, `title4menu`=?, "
+                + "`item`=? WHERE `id`=?;";
     }
 
     @Override
-    public void update(Object object) throws DataAccessException {
-
+    public String getDeleteQuery() {
+        return "DELETE FROM " + attachmentsTable + " WHERE `id`=?;";
     }
 
     @Override
-    public Object getByKey(Object key) throws DataAccessException {
-        return null;
+    protected String getCountQuery() {
+        return "SELECT count(*) FROM " + attachmentsTable;
+    }
+    @Override
+    protected List<New> parseResultSet(ResultSet rs) throws DataAccessException {
+        ArrayList<New> result = new ArrayList<New>();
+        try {
+            while (rs.next()) {
+                New anew = new New();
+                anew.setId(NullableHelper.getInt("id", rs));
+                anew.setTitle(rs.getString("title"));
+                anew.setTitle4menu(rs.getString("title4menu"));
+                anew.setAuthor(rs.getString("author"));
+                anew.setDate(rs.getDate("date"));
+                anew.setItem(rs.getString("item"));
+                result.add(anew);
+            }
+        } catch (Exception e) {
+            throw new DataAccessException(e);
+        }
+        return result;
     }
 
     @Override
-    public List getAll() throws DataAccessException {
-        return null;
+    protected void prepareStatementForInsert(PreparedStatement statement, New anew)
+            throws DataAccessException {
+        try {
+            NullableHelper.setInt(statement, 1, anew.getId());
+            statement.setString(2, anew.getTitle());
+            statement.setString(3, anew.getTitle4menu());
+            statement.setString(4, anew.getAuthor());
+            statement.setDate(5, convertDateToSql(anew.getDate()));
+            statement.setString(6, anew.getItem());
+        } catch (SQLException e) {
+            throw new DataAccessException(e);
+        }
     }
 
     @Override
-    public void delete(Object object) throws DataAccessException {
-
+    protected void prepareStatementForUpdate(PreparedStatement statement, New anew)
+            throws DataAccessException {
+        try {
+            statement.setString(1, anew.getTitle());
+            statement.setString(2, anew.getTitle4menu());
+            statement.setString(3, anew.getItem());
+            NullableHelper.setInt(statement, 4, anew.getId());
+        } catch (SQLException e) {
+            throw new DataAccessException(e);
+        }
     }
 
     @Override
-    public void deleteByKey(Object key) throws DataAccessException {
-
+    public List<New> getNewsByAuthor(String author) throws DataAccessException {
+        if (author == null) {
+            return null;
+        }
+        List<New> list;
+        String sql = getSelectQuery();
+        sql += " WHERE author = ?";
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setObject(1, author);
+            ResultSet rs = statement.executeQuery();
+            list = parseResultSet(rs);
+            statement.close();
+        } catch (SQLException e) {
+            throw new DataAccessException(e);
+        }
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+        return list;
     }
 
     @Override
-    public void refresh(Object object) throws DataAccessException {
-
+    public List<New> getNewsByDate(Date date) throws DataAccessException {
+        if (date == null) {
+            return null;
+        }
+        List<New> list;
+        String sql = getSelectQuery();
+        sql += " WHERE date = ?";
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setObject(1, date);
+            ResultSet rs = statement.executeQuery();
+            list = parseResultSet(rs);
+            statement.close();
+        } catch (SQLException e) {
+            throw new DataAccessException(e);
+        }
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+        return list;
     }
 }

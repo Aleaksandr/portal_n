@@ -1,14 +1,9 @@
 package beans;
 
 
-import org.hibernate.annotations.Entity;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -16,7 +11,7 @@ import java.util.Date;
  * Date: 01.05.15
  */
 @javax.persistence.Entity
-public class Comment {
+public class Comment implements Identifiable<Integer> {
     private static final long serialVersionUID = 1L;
     @Column
     @NotEmpty

@@ -1,12 +1,11 @@
 package dao.dao;
 
+import beans.Comment;
 import exeption.DataAccessException;
 
 import java.util.List;
 
-public interface ICommentDao<T> extends GenericDao {
-    List<T> getCommentAll()throws DataAccessException;
-    T getCommentById(int id)throws DataAccessException;
-    List<T> getCommentByUser()throws DataAccessException;
-    List<T> getCommentByDate()throws DataAccessException;
+public interface ICommentDao extends GenericDao<Comment, Integer> {
+
+    List<Comment> getCommentByUser(String user)throws DataAccessException;
 }

@@ -1,11 +1,13 @@
 package dao.dao;
 
+import beans.New;
 import exeption.DataAccessException;
+
+import java.util.Date;
 import java.util.List;
 
-public interface INewsDao<T> extends GenericDao {
-    List<T> getNewsAll()throws DataAccessException;
-    T getNewsById(int id)throws DataAccessException;
-    List<T> getNewsByAuthor()throws DataAccessException;
-    List<T> getNewsByDate()throws DataAccessException;
+public interface INewsDao extends GenericDao<New, Integer> {
+
+    List<New> getNewsByAuthor(String author)throws DataAccessException;
+    List<New> getNewsByDate(Date date)throws DataAccessException;
 }

@@ -1,75 +1,129 @@
 package dao.mysql;
 
+import beans.Comment;
+import dao.dao.BaseDbDao;
 import dao.dao.ICommentDao;
+import dao.dao.NullableHelper;
 import exeption.DataAccessException;
 import org.apache.log4j.Logger;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by NotePad on 01.05.2015.
- */
-public class MySqlCommentDao implements ICommentDao{
+
+public class MySqlCommentDao extends BaseDbDao<Comment, Integer> implements ICommentDao {
     protected DataSource dataSource;
 
     private static Logger logger = Logger.getLogger(MySqlCommentDao.class);
 
+    protected String attachmentsTable = "`newsportal`.`comments`";
+
     public MySqlCommentDao(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-    @Override
-    public List getCommentAll() throws DataAccessException {
-        return null;
+        super(dataSource);
     }
 
-    @Override
-    public Object getCommentById(int id) throws DataAccessException {
-        return null;
+    private java.sql.Date convertDateToSql(java.util.Date date) {
+        if (date == null) {
+            return null;
+        }
+        return new java.sql.Date(date.getTime());
     }
 
     @Override
-    public List getCommentByUser() throws DataAccessException {
-        return null;
+    public String getSelectQuery() {
+        return "SELECT `id`, `user_id`, `news_id`, `comment`, `date` FROM " + attachmentsTable;
     }
 
     @Override
-    public List getCommentByDate() throws DataAccessException {
-        return null;
+    public String getInsertQuery() {
+        return "INSERT INTO " + attachmentsTable + " (`id`, `user_id`, `news_id`, `comment`, `date`) "
+                + "VALUES (?, ?, ?, ?, ?);";
     }
 
     @Override
-    public Object add(Object object) throws DataAccessException {
-        return null;
+    public String getUpdateQuery() {
+        return "UPDATE " + attachmentsTable + " SET `comment`=?, WHERE `id`=?;";
     }
 
     @Override
-    public void update(Object object) throws DataAccessException {
-
+    public String getDeleteQuery() {
+        return "DELETE FROM " + attachmentsTable + " WHERE `id`=?;";
     }
 
     @Override
-    public Object getByKey(Object key) throws DataAccessException {
-        return null;
+    protected String getCountQuery() {
+        return "SELECT count(*) FROM " + attachmentsTable;
     }
 
     @Override
-    public List getAll() throws DataAccessException {
-        return null;
+    protected List<Comment> parseResultSet(ResultSet rs) throws DataAccessException {
+        ArrayList<Comment> result = new ArrayList<Comment>();
+        try {
+            while (rs.next()) {
+                Comment comment = new Comment();
+                comment.setId(NullableHelper.getInt("id", rs));
+                comment.setUser_id(NullableHelper.getInt("user_id", rs));
+                comment.setNews_id(NullableHelper.getInt("news_id", rs));
+                comment.setComment(rs.getString("comment"));
+                comment.setDate(rs.getDate("date"));
+                result.add(comment);
+            }
+        } catch (Exception e) {
+            throw new DataAccessException(e);
+        }
+        return result;
     }
 
     @Override
-    public void delete(Object object) throws DataAccessException {
-
+    protected void prepareStatementForInsert(PreparedStatement statement, Comment comment)
+            throws DataAccessException {
+        try {
+            NullableHelper.setInt(statement, 1, comment.getId());
+            NullableHelper.setInt(statement, 2, comment.getUser_id());
+            NullableHelper.setInt(statement, 3, comment.getNews_id());
+            statement.setString(4, comment.getComment());
+            statement.setDate(5, convertDateToSql(comment.getDate()));
+        } catch (SQLException e) {
+            throw new DataAccessException(e);
+        }
     }
 
     @Override
-    public void deleteByKey(Object key) throws DataAccessException {
-
+    protected void prepareStatementForUpdate(PreparedStatement statement, Comment comment)
+            throws DataAccessException {
+        try {
+            statement.setString(1, comment.getComment());
+            NullableHelper.setInt(statement, 2, comment.getId());
+        } catch (SQLException e) {
+            throw new DataAccessException(e);
+        }
     }
 
     @Override
-    public void refresh(Object object) throws DataAccessException {
-
+    public List<Comment> getCommentByUser(String user) throws DataAccessException {
+        if (user == null) {
+            return null;
+        }
+        List<Comment> list;
+        String sql = getSelectQuery();
+        sql += " WHERE user = ?";
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setObject(1, user);
+            ResultSet rs = statement.executeQuery();
+            list = parseResultSet(rs);
+            statement.close();
+        } catch (SQLException e) {
+            throw new DataAccessException(e);
+        }
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+        return list;
     }
 }
