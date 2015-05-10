@@ -6,8 +6,10 @@ import bl.CommentManager;
 import dao.dao.ICommentDao;
 import org.apache.log4j.Logger;
 
-import java.util.Date;
-import java.util.List;
+/**
+ * Created by hirs akeaksandr on 25.04.15.
+ * Extended class of Comment
+ */
 
 public class SimpleCommentManager extends AbstractEntityManager<Comment, Integer> implements CommentManager {
 

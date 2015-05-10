@@ -4,9 +4,8 @@ import beans.Comment;
 import dao.dao.BaseDbDao;
 import dao.dao.ICommentDao;
 import dao.dao.NullableHelper;
-import exeption.DataAccessException;
+import exception.DataAccessException;
 import org.apache.log4j.Logger;
-
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,9 +14,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by hirs akeaksandr on 25.04.15.
+ * Extended class to work with Comment bean and mysql database
+ */
 
 public class MySqlCommentDao extends BaseDbDao<Comment, Integer> implements ICommentDao {
-    protected DataSource dataSource;
 
     private static Logger logger = Logger.getLogger(MySqlCommentDao.class);
 

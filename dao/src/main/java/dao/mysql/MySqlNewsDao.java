@@ -4,9 +4,8 @@ import beans.New;
 import dao.dao.BaseDbDao;
 import dao.dao.INewsDao;
 import dao.dao.NullableHelper;
-import exeption.DataAccessException;
+import exception.DataAccessException;
 import org.apache.log4j.Logger;
-
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,10 +15,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Created by hirs akeaksandr on 25.04.15.
+ * Extended class to work with New bean and mysql database
+ */
 
 public class MySqlNewsDao extends BaseDbDao<New, Integer> implements INewsDao {
-
-    protected DataSource dataSource;
 
     protected String attachmentsTable = "`newsportal`.`news`";
 

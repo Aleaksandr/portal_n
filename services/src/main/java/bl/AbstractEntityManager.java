@@ -1,11 +1,15 @@
 package bl;
 
 import dao.dao.GenericDao;
-import exeption.DataAccessException;
+import exception.DataAccessException;
 import exeption.ModelException;
 import org.apache.log4j.Logger;
-
 import java.util.List;
+
+/**
+ * Created by hirs akeaksandr on 25.04.15.
+ * Abstract class for business logic
+ */
 
 public abstract class AbstractEntityManager<T extends beans.Identifiable<K>, K> implements EntityManager<T, K> {
 

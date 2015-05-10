@@ -4,7 +4,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Created by hirs akeaksandr on 25.04.15.
+ * NullableHelper fix some NullPointException problem in databases fields.
+ */
+
 public class NullableHelper {
+
 	public static Integer getInt(String field, ResultSet rs)
 			throws SQLException {
 		return rs.getObject(field) == null ? null : rs.getInt(field);

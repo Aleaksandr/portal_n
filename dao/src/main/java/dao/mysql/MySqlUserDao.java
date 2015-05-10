@@ -1,13 +1,11 @@
 package dao.mysql;
 
-import beans.Comment;
 import beans.User;
 import dao.dao.BaseDbDao;
 import dao.dao.IUserDao;
 import dao.dao.NullableHelper;
-import exeption.DataAccessException;
+import exception.DataAccessException;
 import org.apache.log4j.Logger;
-
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,11 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by NotePad on 01.05.2015.
+ * Created by hirs akeaksandr on 25.04.15.
+ * Extended class to work with User bean and mysql database
  */
-public class MySqlUserDao extends BaseDbDao<User, Integer> implements IUserDao {
 
-    protected DataSource dataSource;
+public class MySqlUserDao extends BaseDbDao<User, Integer> implements IUserDao {
 
     private static Logger logger = Logger.getLogger(MySqlUserDao.class);
 
@@ -109,6 +107,7 @@ public class MySqlUserDao extends BaseDbDao<User, Integer> implements IUserDao {
         List<User> list;
         String sql = getSelectQuery();
         sql += " WHERE email = ?";
+
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setObject(1, email);
@@ -119,6 +118,7 @@ public class MySqlUserDao extends BaseDbDao<User, Integer> implements IUserDao {
             throw new DataAccessException(e);
         }
         if (list == null || list.isEmpty()) {
+            logger.info("getUserByEmail: is Empty ");
             return null;
         }
         if (list.size() > 1) {

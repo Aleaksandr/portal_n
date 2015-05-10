@@ -1,9 +1,12 @@
 package dao.dao;
 
 import beans.User;
-import exeption.DataAccessException;
+import exception.DataAccessException;
 
-import java.util.List;
+/**
+ * Created by hirs akeaksandr on 25.04.15.
+ * Extended interface class for UserDao
+ */
 
 public interface IUserDao extends GenericDao<User, Integer> {
 

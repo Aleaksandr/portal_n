@@ -2,16 +2,17 @@ package beans;
 
 
 import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.Column;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
- * User: ahirs
- * Date: 01.05.15
+ * Created by hirs akeaksandr on 25.04.15.
+ * Comment bean
  */
+
 @javax.persistence.Entity
-public class Comment implements Identifiable<Integer> {
+public class Comment implements Serializable, Identifiable<Integer> {
     private static final long serialVersionUID = 1L;
     @Column
     @NotEmpty

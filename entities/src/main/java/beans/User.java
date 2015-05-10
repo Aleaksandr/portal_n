@@ -1,17 +1,16 @@
 package beans;
 
 import org.hibernate.validator.constraints.NotEmpty;
-
-
-
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
- * User: ahirs
- * Date: 01.05.15
+ * Created by hirs akeaksandr on 25.04.15.
+ * User bean
  */
+
 @Entity
-public class User implements Identifiable<Integer> {
+public class User implements Serializable, Identifiable<Integer> {
     private static final long serialVersionUID = 1L;
     @Column
     @NotEmpty

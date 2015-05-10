@@ -2,8 +2,13 @@ package bl;
 
 import beans.Identifiable;
 import exeption.ModelException;
-
 import java.util.List;
+
+/**
+ * Created by hirs akeaksandr on 25.04.15.
+ * General interface of business logic
+ */
+
 
 public interface EntityManager<T extends Identifiable<K>, K> {
 	List<T> getAll() throws ModelException;

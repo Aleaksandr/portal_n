@@ -1,0 +1,57 @@
+html {
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+form {
+    display:inline-block;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.page-wrapper {
+    min-height: 100%;
+    margin-bottom: -50px;
+}
+* html .page-wrapper {
+    height: 100%;
+}
+.page-buffer {
+    height: 50px;
+}
+
+.itemtitle .menutitle .menu .item {
+    padding:10px;
+}
+
+.itemtitle {
+    width: 20%;
+}
+.menu {
+    height: 300px;
+}
+caption {
+    height: 175px;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 300px;
+    overflow-x: hidden;
+    cursor: pointer;
+}
+.item {
+    height: auto;
+    max-height: 300px;
+    overflow-x: hidden;
+}
+
+.row1 {
+    width:35%;
+}
+.row2 {
+    width:65%;
+}
+

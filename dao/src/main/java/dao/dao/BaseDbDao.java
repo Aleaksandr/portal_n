@@ -1,7 +1,7 @@
 package dao.dao;
 
 import beans.Identifiable;
-import exeption.DataAccessException;
+import exception.DataAccessException;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,9 +9,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Created by hirs akeaksandr on 25.04.15.
+ * Abstract class for database 'newsportal'
+ */
+
 public abstract class BaseDbDao<T extends Identifiable, K> implements GenericDao<T, K> {
 
 	protected DataSource dataSource;
+
+	public BaseDbDao(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+
+/**
+ * Prepared sql query for statement
+ */
 
 	protected abstract String getSelectQuery();
 
@@ -23,10 +36,12 @@ public abstract class BaseDbDao<T extends Identifiable, K> implements GenericDao
 
 	protected abstract String getCountQuery();
 
-	public BaseDbDao(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
-	
+/**
+ *
+ * @param rs
+ * @return T object, List<T object>
+ * @throws DataAccessException
+ */
 	protected abstract List<T> parseResultSet(ResultSet rs)
 			throws DataAccessException;
 

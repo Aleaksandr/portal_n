@@ -1,16 +1,19 @@
 package dao.mysql;
 
-
 import dao.dao.DaoFactory;
 import dao.dao.ICommentDao;
 import dao.dao.INewsDao;
 import dao.dao.IUserDao;
 import org.apache.log4j.Logger;
 import org.apache.tomcat.jdbc.pool.DataSource;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
+/**
+ * Created by hirs akeaksandr on 25.04.15.
+ * Class to connect database and return bean's DAO
+ */
 
 public class MySqlDaoFactory implements DaoFactory {
 	private static Logger logger = Logger.getLogger(MySqlDaoFactory.class);
@@ -31,13 +34,13 @@ public class MySqlDaoFactory implements DaoFactory {
 			properties.load(input);
 			dbUrl = properties.getProperty("url");
 			dbUser = properties.getProperty("user");
-			dbPassword = properties.getProperty("pass");
+			dbPassword = properties.getProperty("password");
 		} catch (IOException | NumberFormatException e) {
 			logger.error("Failed to get db properties.", e);
 		} finally {
 			DB_URL = dbUrl == null ? "jdbc:mysql://localhost:3306/newsportal" : dbUrl;
 			DB_USER = dbUser == null ? "root" : dbUser;
-			DB_PASSWORD = dbPassword == null ? "" : dbPassword;
+			DB_PASSWORD = dbPassword == null ? "1234" : dbPassword;
 		}
 	}
 

@@ -1,7 +1,12 @@
 package dao.dao;
 
-import exeption.DataAccessException;
+import exception.DataAccessException;
 import java.util.List;
+
+/**
+ * Created by hirs akeaksandr on 25.04.15.
+ * General interface class fo DAO
+ */
 
 public interface GenericDao<T, K> {
 
