@@ -3,7 +3,7 @@ package bl.simple;
 import beans.Comment;
 import bl.AbstractEntityManager;
 import bl.CommentManager;
-import dao.dao.ICommentDao;
+import dao.ICommentDao;
 import org.apache.log4j.Logger;
 
 /**

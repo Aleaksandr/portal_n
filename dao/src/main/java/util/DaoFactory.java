@@ -1,4 +1,8 @@
-package dao.dao;
+package util;
+
+import dao.ICommentDao;
+import dao.INewsDao;
+import dao.IUserDao;
 
 /**
  * Created by hirs akeaksandr on 25.04.15.

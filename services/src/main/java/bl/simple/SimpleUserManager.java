@@ -3,7 +3,7 @@ package bl.simple;
 import beans.User;
 import bl.AbstractEntityManager;
 import bl.UserManager;
-import dao.dao.IUserDao;
+import dao.IUserDao;
 import exception.DataAccessException;
 import exeption.ModelException;
 import org.apache.log4j.Logger;

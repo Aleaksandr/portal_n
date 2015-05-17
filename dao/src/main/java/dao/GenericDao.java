@@ -1,4 +1,4 @@
-package dao.dao;
+package dao;
 
 import exception.DataAccessException;
 import java.util.List;

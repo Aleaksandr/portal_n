@@ -1,9 +1,9 @@
-package dao.mysql;
+package impl;
 
 import beans.New;
-import dao.dao.BaseDbDao;
-import dao.dao.INewsDao;
-import dao.dao.NullableHelper;
+import dao.BaseDbDao;
+import dao.INewsDao;
+import dao.NullableHelper;
 import exception.DataAccessException;
 import org.apache.log4j.Logger;
 import javax.sql.DataSource;
@@ -20,13 +20,13 @@ import java.util.List;
  * Extended class to work with New bean and mysql database
  */
 
-public class MySqlNewsDao extends BaseDbDao<New, Integer> implements INewsDao {
+public class NewsDaoImpl extends BaseDbDao<New, Integer> implements INewsDao {
 
-    protected String attachmentsTable = "`newsportal`.`news`";
+    protected String attachmentsTable = "`newportal`.`news`";
 
-    private static Logger logger = Logger.getLogger(MySqlNewsDao.class);
+    private static Logger logger = Logger.getLogger(NewsDaoImpl.class);
 
-    public MySqlNewsDao(DataSource dataSource) {
+    public NewsDaoImpl(DataSource dataSource) {
         super(dataSource);
     }
 

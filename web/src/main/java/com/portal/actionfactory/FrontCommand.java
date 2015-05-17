@@ -1,5 +1,6 @@
-package com.portal;
+package com.portal.actionfactory;
 
+import com.portal.controller.FrontController;
 import exception.DataAccessException;
 import exeption.ModelException;
 import org.apache.log4j.Logger;
@@ -28,6 +29,7 @@ abstract public class FrontCommand {
     abstract public void process() throws ServletException, IOException, DataAccessException, ModelException;
 
     protected void forward(String target) throws ServletException, IOException {
+        logger.info("Target: "+ target);
         RequestDispatcher dispatcher = context.getRequestDispatcher(target);
         dispatcher.forward(request, response);
     }

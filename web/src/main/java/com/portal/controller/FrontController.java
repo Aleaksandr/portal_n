@@ -1,7 +1,9 @@
-package com.portal;
+package com.portal.controller;
 
 
+import com.portal.actionfactory.FrontCommand;
 import com.portal.commands.IndexCommand;
+import com.portal.util.Attributes;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -13,6 +15,7 @@ import java.io.IOException;
 
 public class FrontController extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    public final static String CLASS_PATH = "com.portal.commands.";
     private static Logger logger = Logger.getLogger(FrontController.class);
 
     @Override
@@ -35,6 +38,7 @@ public class FrontController extends HttpServlet {
         try {
             command = getCommand(req);
             command.init(getServletContext(), req, res);
+            logger.info("FrontController begin");
             command.process();
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,18 +55,31 @@ public class FrontController extends HttpServlet {
     }
 
     private Class getCommandClass(HttpServletRequest request) {
-        final String CLASS_PATH = "com.portal.commands.";
         HttpSession session = request.getSession();
+        String RequestCommandParametr;
+        logger.info("Request Par: "+ request.getParameter(Attributes.COMMAND));
+        logger.info("Request Atr: "+ request.getAttribute(Attributes.COMMAND));
+
+        /**
+         * requst attribute more priority requst parameters:
+         */
+        if (request.getAttribute(Attributes.COMMAND) != null) {
+            RequestCommandParametr = (String)request.getAttribute(Attributes.COMMAND);
+            request.removeAttribute(Attributes.COMMAND);
+        } else {
+            RequestCommandParametr = request.getParameter(Attributes.COMMAND);
+        }
+        logger.info("RequestCommandParametr: "+ RequestCommandParametr);
 
         Class result;
         final String commandClassName;
 
-        if(request.getParameter(Attributes.COMMAND)==null){
+        if(RequestCommandParametr==null){
             commandClassName = CLASS_PATH;
             logger.info("Session command: Index");
         } else {
-            commandClassName = CLASS_PATH + request.getParameter(Attributes.COMMAND) + "Command";
-            logger.info("Session command: "+ request.getParameter("command"));
+            commandClassName = CLASS_PATH + RequestCommandParametr + "Command";
+            logger.info("Session command: "+ RequestCommandParametr);
         }
 
         try {

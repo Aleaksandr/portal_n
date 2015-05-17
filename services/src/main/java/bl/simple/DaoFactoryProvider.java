@@ -1,6 +1,6 @@
 package bl.simple;
 
-import dao.dao.DaoFactory;
+import util.DaoFactory;
 import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.io.InputStream;

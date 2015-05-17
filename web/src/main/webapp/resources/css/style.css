@@ -18,6 +18,12 @@ html, body {
 * html .page-wrapper {
     height: 100%;
 }
+.page-wrapper .logout {
+     position: fixed;
+     right: 10px;
+     top: 10px;
+ }
+
 .page-buffer {
     height: 50px;
 }

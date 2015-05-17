@@ -1,4 +1,4 @@
-package com.portal;
+package com.portal.util;
 
 public abstract class Attributes {
     public final static String PRODUCT_MAP = "productMap";

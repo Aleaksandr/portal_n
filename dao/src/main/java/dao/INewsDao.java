@@ -1,4 +1,4 @@
-package dao.dao;
+package dao;
 
 import beans.New;
 import exception.DataAccessException;

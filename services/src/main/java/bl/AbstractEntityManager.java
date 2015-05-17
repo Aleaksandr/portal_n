@@ -1,6 +1,6 @@
 package bl;
 
-import dao.dao.GenericDao;
+import dao.GenericDao;
 import exception.DataAccessException;
 import exeption.ModelException;
 import org.apache.log4j.Logger;

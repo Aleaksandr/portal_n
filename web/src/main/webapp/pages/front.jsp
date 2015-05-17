@@ -1,8 +1,7 @@
-<%@ page import="com.portal.Attributes" %>
-<%@ page import="com.portal.commands.LoginCommand" %>
-<%@ page import="com.portal.commands.IndexCommand" %>
+<%@ page import="com.portal.util.Attributes" %>
+<%@ page import="com.portal.commands.*" %>
 <%@ page import="com.portal.commands.RegisterCommand" %>
-<%@ page import="com.portal.commands.FormNewsAddCommand" %>
+<%@ page import="com.portal.commands.UserinfoCommand" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <jsp:useBean id="newsitem" class="beans.New" scope="session"></jsp:useBean>
@@ -10,6 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <title>News-Portal</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -28,6 +28,14 @@
 <body>
 <div class="page-wrapper">
     <div id="content">
+        <div class="logout">
+            <c:if test="${usertype eq 'USER'|| usertype eq 'ADMINISTRATOR'}">
+                <form action="FrontController" method="post">
+                    <input type="hidden" name="<%=Attributes.COMMAND%>" value="<%=LogoutCommand.NAME%>">
+                    <input class="btn btn-default" type="submit" name="login" value="Log Out">
+                </form>
+            </c:if>
+        </div>
 
 
         <table class="table">
@@ -70,21 +78,27 @@
             <tr>
                 <td>
                     <c:if test="${usertype eq 'GUEST'}">
-                        <form action="index" method="post">
+                        <form action="FrontController" method="post">
                             <input type="hidden" name="<%=Attributes.COMMAND%>" value="<%=LoginCommand.NAME%>">
                             <input class="btn btn-default" type="submit" name="login" value="Sign In">
                         </form>
                     </c:if>
                     <c:if test="${usertype eq 'GUEST'}">
-                    <form action="index" method="post">
-                        <input type="hidden" name="<%=Attributes.COMMAND%>" value="<%=RegisterCommand.NAME%>">
-                        <input class="btn btn-default" type="submit" name="register" value="Register">
-                    </form>
+                        <form action="FrontController" method="post">
+                            <input type="hidden" name="<%=Attributes.COMMAND%>" value="<%=RegisterCommand.NAME%>">
+                            <input class="btn btn-default" type="submit" name="register" value="Register">
+                        </form>
                     </c:if>
                     <c:if test="${usertype eq 'USER'}">
-                        <form action="index" method="post">
+                        <form action="FrontController" method="post">
                             <input type="hidden" name="<%=Attributes.COMMAND%>" value="<%=FormNewsAddCommand.NAME%>">
                             <input class="btn btn-default" type="submit" name="register" value="Add News">
+                        </form>
+                    </c:if>
+                    <c:if test="${usertype eq 'USER'}">
+                        <form action="FrontController" method="post">
+                            <input type="hidden" name="<%=Attributes.COMMAND%>" value="<%=UserinfoCommand.NAME%>">
+                            <input class="btn btn-default" type="submit" name="register" value="User setting">
                         </form>
                     </c:if>
 
@@ -97,7 +111,7 @@
     <div class="page-buffer"></div>
 </div>
 <div class="page-footer">
-    <p>Александр Гирс, 2015</p>
+    <p>Hirs Aleaksandr, 2015</p>
 </div>
 
 

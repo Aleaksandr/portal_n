@@ -3,7 +3,7 @@ package bl.simple;
 import beans.New;
 import bl.AbstractEntityManager;
 import bl.NewsManager;
-import dao.dao.INewsDao;
+import dao.INewsDao;
 import exception.DataAccessException;
 import exeption.ModelException;
 import org.apache.log4j.Logger;

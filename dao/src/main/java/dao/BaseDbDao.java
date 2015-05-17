@@ -1,4 +1,4 @@
-package dao.dao;
+package dao;
 
 import beans.Identifiable;
 import exception.DataAccessException;
@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * Created by hirs akeaksandr on 25.04.15.
- * Abstract class for database 'newsportal'
+ * Abstract class for database 'newportal'
  */
 
 public abstract class BaseDbDao<T extends Identifiable, K> implements GenericDao<T, K> {

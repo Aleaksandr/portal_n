@@ -2,9 +2,10 @@ package com.portal.commands;
 
 import beans.New;
 import beans.User;
-import com.portal.Attributes;
-import com.portal.BlManager;
-import com.portal.FrontCommand;
+import com.portal.util.Attributes;
+import com.portal.actionfactory.BlManager;
+import com.portal.actionfactory.FrontCommand;
+import com.portal.util.Paths;
 import exeption.ModelException;
 import org.apache.log4j.Logger;
 
@@ -25,9 +26,10 @@ public class AddNewsCommand extends FrontCommand {
     public void process() throws ServletException, IOException {
 
         Logger logger = Logger.getLogger(AddNewsCommand.class);
+        request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
 
-        Date d = new Date();
+                Date d = new Date();
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         String dataAdd = format.format(d);
 
@@ -54,7 +56,8 @@ public class AddNewsCommand extends FrontCommand {
         } catch (ModelException e) {
             logger.error(e);
         }
-        forward(Paths.INDEX);
+        request.setAttribute(Attributes.COMMAND, IndexCommand.NAME);
+        forward(Paths.FRONT);
     }
 
     private Date convertToDate(String dateString) throws ParseException {

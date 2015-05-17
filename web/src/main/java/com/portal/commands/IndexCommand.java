@@ -1,13 +1,14 @@
 package com.portal.commands;
 
 import beans.New;
-import com.portal.BlManager;
-import com.portal.FrontCommand;
+import com.portal.actionfactory.BlManager;
+import com.portal.actionfactory.FrontCommand;
+import com.portal.util.Paths;
 import exeption.ModelException;
 import org.apache.log4j.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.spi.http.HttpContext;
 import java.io.IOException;
 import java.util.List;
 
@@ -15,14 +16,14 @@ import java.util.List;
 public class IndexCommand extends FrontCommand {
 
     public static String NAME = "Index";
-
+    Logger logger = Logger.getLogger(IndexCommand.class);
     @Override
     public void process() throws ServletException, IOException {
-        Logger logger = Logger.getLogger(IndexCommand.class);
         HttpSession session = request.getSession();
         New newsitem = null;
         List newslist;
         String item_id = request.getParameter("item_id");
+        logger.info("IndexCommand: begin");
 
         try {
             if (item_id == null) {

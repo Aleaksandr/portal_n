@@ -1,9 +1,9 @@
-package dao.mysql;
+package impl;
 
 import beans.User;
-import dao.dao.BaseDbDao;
-import dao.dao.IUserDao;
-import dao.dao.NullableHelper;
+import dao.BaseDbDao;
+import dao.IUserDao;
+import dao.NullableHelper;
 import exception.DataAccessException;
 import org.apache.log4j.Logger;
 import javax.sql.DataSource;
@@ -19,13 +19,13 @@ import java.util.List;
  * Extended class to work with User bean and mysql database
  */
 
-public class MySqlUserDao extends BaseDbDao<User, Integer> implements IUserDao {
+public class UserDaoImpl extends BaseDbDao<User, Integer> implements IUserDao {
 
-    private static Logger logger = Logger.getLogger(MySqlUserDao.class);
+    private static Logger logger = Logger.getLogger(UserDaoImpl.class);
 
-    protected String attachmentsTable = "`newsportal`.`users`";
+    protected String attachmentsTable = "`newportal`.`users`";
 
-    public MySqlUserDao(DataSource dataSource) {
+    public UserDaoImpl(DataSource dataSource) {
         super(dataSource);
     }
 

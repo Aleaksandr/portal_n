@@ -14,12 +14,14 @@ import java.io.IOException;
  * Autentification filter for requests to FrontController
  */
 
-@WebFilter(filterName = "ServletSecurityFilter", urlPatterns = { "/index" }, servletNames = { "FrontController" })
+@WebFilter  ( filterName = "ServletSecurityFilter",
+            servletNames = "FrontController"
+            )
 
 public class ServletSecurityFilter implements Filter {
 
+    public static String NAME = "Check";
     private static final Logger logger = Logger.getLogger(ServletSecurityFilter.class);
-
     public void destroy() {
     }
 
@@ -44,6 +46,5 @@ public class ServletSecurityFilter implements Filter {
     }
 
     public void init(FilterConfig config) throws ServletException {
-
     }
 }

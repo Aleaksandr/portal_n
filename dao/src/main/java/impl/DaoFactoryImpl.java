@@ -1,9 +1,9 @@
-package dao.mysql;
+package impl;
 
-import dao.dao.DaoFactory;
-import dao.dao.ICommentDao;
-import dao.dao.INewsDao;
-import dao.dao.IUserDao;
+import util.DaoFactory;
+import dao.ICommentDao;
+import dao.INewsDao;
+import dao.IUserDao;
 import org.apache.log4j.Logger;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import java.io.IOException;
@@ -15,8 +15,8 @@ import java.util.Properties;
  * Class to connect database and return bean's DAO
  */
 
-public class MySqlDaoFactory implements DaoFactory {
-	private static Logger logger = Logger.getLogger(MySqlDaoFactory.class);
+public class DaoFactoryImpl implements DaoFactory {
+	private static Logger logger = Logger.getLogger(DaoFactoryImpl.class);
 
 	private static final String DB_URL;
 	private static final String DB_USER;
@@ -24,7 +24,7 @@ public class MySqlDaoFactory implements DaoFactory {
 
 	static {
 		String filename = "db.properties";
-		ClassLoader classLoader = MySqlDaoFactory.class.getClassLoader();
+		ClassLoader classLoader = DaoFactoryImpl.class.getClassLoader();
 		InputStream input = classLoader.getResourceAsStream(filename);
 		Properties properties = new Properties();
 		String dbUrl = null;
@@ -38,7 +38,7 @@ public class MySqlDaoFactory implements DaoFactory {
 		} catch (IOException | NumberFormatException e) {
 			logger.error("Failed to get db properties.", e);
 		} finally {
-			DB_URL = dbUrl == null ? "jdbc:mysql://localhost:3306/newsportal" : dbUrl;
+			DB_URL = dbUrl == null ? "jdbc:mysql://localhost:3306/newportal" : dbUrl;
 			DB_USER = dbUser == null ? "root" : dbUser;
 			DB_PASSWORD = dbPassword == null ? "1234" : dbPassword;
 		}
@@ -51,7 +51,7 @@ public class MySqlDaoFactory implements DaoFactory {
 	private ICommentDao commentDao;
 
 
-	public MySqlDaoFactory() {
+	public DaoFactoryImpl() {
 		dataSource = new DataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		dataSource.setUrl(DB_URL);
@@ -67,17 +67,17 @@ public class MySqlDaoFactory implements DaoFactory {
 
 	@Override
 	public ICommentDao getCommentDao() {
-		return commentDao == null ? new MySqlCommentDao(dataSource) : commentDao;
+		return commentDao == null ? new CommentDaoImpl(dataSource) : commentDao;
 	}
 
 	@Override
 	public INewsDao getNewsDao() {
-		return newsDao == null ? new MySqlNewsDao(dataSource) : newsDao;
+		return newsDao == null ? new NewsDaoImpl(dataSource) : newsDao;
 	}
 
 	@Override
 	public IUserDao getUserDao() {
-		return userDao == null ? new MySqlUserDao(dataSource) : userDao;
+		return userDao == null ? new UserDaoImpl(dataSource) : userDao;
 	}
 
 }

@@ -54,7 +54,7 @@
 
     </dependencies>
     <build>
-        <!--<finalName>contacts-app</finalName>-->
+
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

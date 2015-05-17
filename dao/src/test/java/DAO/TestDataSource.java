@@ -1,6 +1,6 @@
 package DAO;
 
-import dao.mysql.MySqlDaoFactory;
+import impl.DaoFactoryImpl;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +25,7 @@ class TestDataSource implements DataSource {
 
 	static {
 		String filename = "db.properties";
-		ClassLoader classLoader = MySqlDaoFactory.class.getClassLoader();
+		ClassLoader classLoader = DaoFactoryImpl.class.getClassLoader();
 		InputStream input = classLoader.getResourceAsStream(filename);
 		Properties properties = new Properties();
 		String dbUrl = null;
@@ -39,7 +39,7 @@ class TestDataSource implements DataSource {
 		} catch (IOException | NumberFormatException e) {
 			System.out.println("Failed to get test db properties.");
 		} finally {
-			DB_URL = dbUrl == null ? "jdbc:mysql://localhost:3306/newsportal" : dbUrl;
+			DB_URL = dbUrl == null ? "jdbc:mysql://localhost:3306/newportal" : dbUrl;
 			DB_USER = dbUser == null ? "root" : dbUser;
 			DB_PASSWORD = dbPassword == null ? "" : dbPassword;
 		}

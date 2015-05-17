@@ -1,7 +1,7 @@
 package DAO;
 
 import beans.User;
-import dao.mysql.MySqlUserDao;
+import impl.UserDaoImpl;
 import exception.DataAccessException;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -13,14 +13,14 @@ import static org.junit.Assert.*;
  * Test class to work with User bean and mysql database
  */
 
-public class MySqlUserDaoTest {
+public class UserDaoImplTest {
 
-	private static MySqlUserDao dao;
+	private static UserDaoImpl dao;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		DataSource ds = new TestDataSource();
-		dao = new MySqlUserDao(ds);
+		dao = new UserDaoImpl(ds);
 	}
 
 	@Test
