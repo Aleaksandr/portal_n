@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 abstract public class FrontCommand {
-    private static Logger logger = Logger.getLogger(FrontController.class);
+    private static Logger logger = Logger.getLogger(FrontCommand.class);
     protected ServletContext context;
     protected HttpServletRequest request;
     protected HttpServletResponse response;
@@ -29,7 +29,6 @@ abstract public class FrontCommand {
     abstract public void process() throws ServletException, IOException, DataAccessException, ModelException;
 
     protected void forward(String target) throws ServletException, IOException {
-        logger.info("Target: "+ target);
         RequestDispatcher dispatcher = context.getRequestDispatcher(target);
         dispatcher.forward(request, response);
     }

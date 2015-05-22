@@ -8,11 +8,15 @@
     <file url="file://$PROJECT_DIR$/web" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/web/src/main/java/com/portal/actionfactory/BlManager.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/web/src/main/java/com/portal/filter/ServletSecurityFilter.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/web/src/main/webapp/pages/addcomment.jsp" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/web/src/main/webapp/pages/addnews.jsp" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/web/src/main/webapp/pages/changeuserset.jsp" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/web/src/main/webapp/pages/login.jsp" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/web/src/main/webapp/pages/register.jsp" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/web/src/main/webapp/pages/updcomment.jsp" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/web/src/main/webapp/pages/updnews.jsp" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/web/src/main/webapp/pages/userinfo.jsp" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/web/src/main/webapp/resources/css/adnews.css" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/web/src/main/webapp/resources/css/bootstrap-theme.min.css" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/web/src/main/webapp/resources/css/bootstrap.min.css" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/web/src/main/webapp/resources/css/login.css" charset="windows-1251" />

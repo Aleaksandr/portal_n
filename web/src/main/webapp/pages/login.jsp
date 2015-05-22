@@ -14,7 +14,7 @@
 <div class="login-card">
     <h1>Log-in</h1><br>
 
-    <form action="index" method="post">
+    <form action="FrontController" method="post">
         <input type="hidden" name="<%=Attributes.COMMAND%>" value="<%=CheckCommand.NAME%>">
         <input type="text" name="email" placeholder="E-mail">
         <input type="password" name="pass" placeholder="Password">

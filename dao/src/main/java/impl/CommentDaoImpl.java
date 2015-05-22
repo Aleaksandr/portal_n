@@ -49,7 +49,7 @@ public class CommentDaoImpl extends BaseDbDao<Comment, Integer> implements IComm
 
     @Override
     public String getUpdateQuery() {
-        return "UPDATE " + attachmentsTable + " SET `comment`=?, WHERE `id`=?;";
+        return "UPDATE " + attachmentsTable + " SET `comment`=? WHERE `id`=?;";
     }
 
     @Override
@@ -117,6 +117,29 @@ public class CommentDaoImpl extends BaseDbDao<Comment, Integer> implements IComm
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setObject(1, user);
+            ResultSet rs = statement.executeQuery();
+            list = parseResultSet(rs);
+            statement.close();
+        } catch (SQLException e) {
+            throw new DataAccessException(e);
+        }
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+        return list;
+    }
+
+    @Override
+    public List<Comment> getCommentByItem(Integer newsId) throws DataAccessException {
+        if (newsId == null) {
+            return null;
+        }
+        List<Comment> list;
+        String sql = getSelectQuery();
+        sql += " WHERE news_id = ?";
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setObject(1, newsId);
             ResultSet rs = statement.executeQuery();
             list = parseResultSet(rs);
             statement.close();

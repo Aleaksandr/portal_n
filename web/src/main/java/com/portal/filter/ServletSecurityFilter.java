@@ -39,7 +39,6 @@ public class ServletSecurityFilter implements Filter {
                 type = "USER";
         }
         session.setAttribute("usertype", type);
-        logger.info("USERTYPE - " + session.getAttribute("usertype") + "; USER - " + session.getAttribute("user"));
 
         // pass the request along the filter chain
         chain.doFilter(request, response);

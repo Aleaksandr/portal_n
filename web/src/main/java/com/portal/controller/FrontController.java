@@ -57,8 +57,6 @@ public class FrontController extends HttpServlet {
     private Class getCommandClass(HttpServletRequest request) {
         HttpSession session = request.getSession();
         String RequestCommandParametr;
-        logger.info("Request Par: "+ request.getParameter(Attributes.COMMAND));
-        logger.info("Request Atr: "+ request.getAttribute(Attributes.COMMAND));
 
         /**
          * requst attribute more priority requst parameters:
@@ -69,7 +67,6 @@ public class FrontController extends HttpServlet {
         } else {
             RequestCommandParametr = request.getParameter(Attributes.COMMAND);
         }
-        logger.info("RequestCommandParametr: "+ RequestCommandParametr);
 
         Class result;
         final String commandClassName;

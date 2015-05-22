@@ -1,10 +1,11 @@
 package com.portal.commands;
 
+import beans.Comment;
 import beans.New;
 import beans.User;
-import com.portal.util.Attributes;
 import com.portal.actionfactory.BlManager;
 import com.portal.actionfactory.FrontCommand;
+import com.portal.util.Attributes;
 import com.portal.util.Paths;
 import exeption.ModelException;
 import org.apache.log4j.Logger;
@@ -18,40 +19,41 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class AddNewsCommand extends FrontCommand {
+public class AddCommentCommand extends FrontCommand {
 
-    public static String NAME = "AddNews";
+    public static String NAME = "AddComment";
+    Logger logger = Logger.getLogger(AddCommentCommand.class);
 
     @Override
     public void process() throws ServletException, IOException {
+        logger.info("AddCommentCommand begin");
 
-        Logger logger = Logger.getLogger(AddNewsCommand.class);
         HttpSession session = request.getSession();
 
         Date d = new Date();
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         String dataAdd = format.format(d);
 
-        New regNews = new New();
-        String titleAdd = request.getParameter("title");
-        String title4menuAdd = request.getParameter("title4menu");
-        String itemAdd = request.getParameter("item");
+        Comment regCom = new Comment();
+        User user = (User)session.getAttribute("user");
+        Integer user_id = user.getId();
+        Integer news_id = Integer.valueOf((String) session.getAttribute("item_id"));
+        String comment = request.getParameter("comment");
 
-        User user = (User) session.getAttribute("user");
-        regNews.setId(null);
-        regNews.setTitle(titleAdd);
-        regNews.setTitle4menu(title4menuAdd);
-        regNews.setAuthor(user.getEmail());
+        regCom.setId(null);
+        regCom.setNews_id(news_id);
+        regCom.setUser_id(user_id);
+        regCom.setComment(comment);
         try {
-            regNews.setDate(convertToDate(dataAdd));
+            regCom.setDate(convertToDate(dataAdd));
         } catch (ParseException e) {
             logger.error(e);
         }
-        regNews.setItem(itemAdd);
+
 
         try {
-            BlManager.getNewsManager().save(regNews);
-            logger.info("Reg New After: "+ regNews);
+            BlManager.getCommentManager().save(regCom);
+            logger.info("Reg Comment After: "+ regCom);
         } catch (ModelException e) {
             logger.error(e);
         }

@@ -48,15 +48,15 @@ public class Comment implements Serializable, Identifiable<Integer> {
     }
 
     public void setUser_id(Integer user_id) {
-        this.id = user_id;
+        this.user_id = user_id;
     }
 
     public Integer getNews_id() {
-        return user_id;
+        return news_id;
     }
 
     public void setNews_id(Integer news_id) {
-        this.id = news_id;
+        this.news_id = news_id;
     }
 
     public String getComment() {

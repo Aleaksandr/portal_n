@@ -12,4 +12,5 @@ import java.util.List;
 public interface ICommentDao extends GenericDao<Comment, Integer> {
 
     List<Comment> getCommentByUser(String user)throws DataAccessException;
+    List<Comment> getCommentByItem(Integer newsid)throws DataAccessException;
 }

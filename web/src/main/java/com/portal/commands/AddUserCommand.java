@@ -37,11 +37,13 @@ public class AddUserCommand extends FrontCommand {
         try {
             if(BlManager.getUserManager().getUserByEmail(emailReg) != null){
                 String message = "A user with that login ("+ emailReg +") already exists.";
+                session.setAttribute("message", message);
                 forward(Paths.REGISTER);
 
             } else {
                 User user = BlManager.getUserManager().save(regUser);
                 session.setAttribute("user", user);
+                session.setAttribute("message", null);
                 logger.info("Reg User After: " + user);
                 request.setAttribute(Attributes.COMMAND, CheckCommand.NAME);
                 forward(Paths.FRONT);

@@ -5,10 +5,13 @@ html {
 }
 form {
     display:inline-block;
+    margin-bottom: 4px;
 }
 html, body {
     height: 100%;
     margin: 0;
+    margin-left: 10px;
+    padding-left: 20px;
     padding: 0;
 }
 .page-wrapper {
@@ -32,15 +35,14 @@ html, body {
     padding:10px;
 }
 
-.itemtitle {
-    width: 20%;
-}
 .menu {
-    height: 300px;
+    width: 20%;
+    height: 350px;
 }
 caption {
     height: 175px;
 }
+
 
 .scrollable-menu {
     height: auto;

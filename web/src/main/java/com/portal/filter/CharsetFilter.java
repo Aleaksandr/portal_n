@@ -7,7 +7,6 @@ import javax.servlet.annotation.WebInitParam;
 import java.io.IOException;
 
 /**
- * Created by alexanderleonovich on 27.04.15.
  * Implementation of the Filter interface for the task, changing coding focusing
  * of the request and response to the encoding specified filter parameter.
  */
@@ -31,9 +30,7 @@ import java.io.IOException;
             req.setCharacterEncoding(code);
             resp.setCharacterEncoding(code);
         }
-        logger.info("Filter!!!");
         chain.doFilter(req, resp);
-
     }
 
     public void init(FilterConfig config) throws ServletException {
