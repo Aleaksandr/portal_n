@@ -1,6 +1,7 @@
 package com.portal.commands;
 
-import beans.User;
+import exception.PersistException;
+import pojos.User;
 import com.portal.util.Attributes;
 import com.portal.actionfactory.BlManager;
 import com.portal.actionfactory.FrontCommand;
@@ -23,23 +24,23 @@ public class CheckCommand extends FrontCommand {
         logger.info("CheckCommand begin");
         String message;
         HttpSession session = request.getSession();
-        User user;
+        User userIn;
         String type = null;
         String emailLogin = request.getParameter("email");
         String passLogin = request.getParameter("pass");
 
         try {
-            if (BlManager.getUserManager().getUserByEmail(emailLogin) != null) {
-                user = BlManager.getUserManager().getUserByEmail(emailLogin);
-                if (!user.getPass().matches(passLogin)) {
+            userIn = BlManager.getUserManager().getUserByEmail(emailLogin);
+            if (userIn != null) {
+                if (!userIn.getPass().matches(passLogin)) {
                     message = "Pass incorrect, need register!";
                     session.setAttribute("message", message);
                     logger.info(message);
                     request.setAttribute(Attributes.COMMAND, RegisterCommand.NAME);
                     forward(Paths.FRONT);
                 } else {
-                    logger.info("Sign IN (Check): " + user.getRole());
-                    session.setAttribute("user", user);
+                    logger.info("Sign IN (Check): " + userIn.getRole());
+                    session.setAttribute("user", userIn);
                 }
             } else {
                 message = "User incorrect, need register!";
@@ -49,7 +50,7 @@ public class CheckCommand extends FrontCommand {
                 forward(Paths.FRONT);
             }
 
-            user = (User) session.getAttribute("user");
+            User user = (User) session.getAttribute("user");
             if (user == null) {
                 type = "GUEST";
             }else if (user.getRole().equals("admin")) {
@@ -61,14 +62,16 @@ public class CheckCommand extends FrontCommand {
             request.setAttribute(Attributes.COMMAND, IndexCommand.NAME);
             forward(Paths.FRONT);
 
-        } catch (ModelException e) {
-            logger.info(e);
-        } catch (DataAccessException e) {
-            logger.info(e);
-        } catch (IOException e) {
-            logger.info(e);
-        } catch (ServletException e) {
-            logger.info(e);
+        } catch (PersistException e) {
+            logger.error("Error in "+ NAME + e);;
+        } catch (DataAccessException e1) {
+            logger.error("Error in "+ NAME + e1);
+        } catch (IOException e2) {
+            logger.error("Error in "+ NAME + e2);
+        } catch (ServletException e3) {
+            logger.error("Error in "+ NAME + e3);
+        } catch (ModelException e5) {
+            logger.error("Error in "+ NAME + e5);
         }
 
     }

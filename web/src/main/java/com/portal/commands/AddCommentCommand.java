@@ -1,8 +1,9 @@
 package com.portal.commands;
 
-import beans.Comment;
-import beans.New;
-import beans.User;
+import exception.PersistException;
+import pojos.Comment;
+import pojos.News;
+import pojos.User;
 import com.portal.actionfactory.BlManager;
 import com.portal.actionfactory.FrontCommand;
 import com.portal.util.Attributes;
@@ -16,7 +17,9 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class AddCommentCommand extends FrontCommand {
@@ -30,42 +33,33 @@ public class AddCommentCommand extends FrontCommand {
 
         HttpSession session = request.getSession();
 
-        Date d = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        String dataAdd = format.format(d);
+        News thisNews = (News) session.getAttribute("newsitem");
 
         Comment regCom = new Comment();
         User user = (User)session.getAttribute("user");
         Integer user_id = user.getId();
-        Integer news_id = Integer.valueOf((String) session.getAttribute("item_id"));
         String comment = request.getParameter("comment");
 
-        regCom.setId(null);
-        regCom.setNews_id(news_id);
         regCom.setUser_id(user_id);
         regCom.setComment(comment);
-        try {
-            regCom.setDate(convertToDate(dataAdd));
-        } catch (ParseException e) {
-            logger.error(e);
-        }
-
+        regCom.setDate(new Date());
 
         try {
+            regCom.setNew(thisNews);
+            logger.info("This news: " + thisNews);
+            logger.info("This comment: " + regCom);
+            if (thisNews.getComments() == null) {
+                List<Comment> newComList = new ArrayList<Comment>();
+                newComList.add(regCom);
+                thisNews.setComments(newComList);
+            } else {
+                thisNews.getComments().add(regCom);
+            }
             BlManager.getCommentManager().save(regCom);
-            logger.info("Reg Comment After: "+ regCom);
-        } catch (ModelException e) {
-            logger.error(e);
+        } catch (PersistException e) {
+            logger.error("Error in "+ NAME + e);;
         }
         request.setAttribute(Attributes.COMMAND, IndexCommand.NAME);
         forward(Paths.FRONT);
-    }
-
-    private Date convertToDate(String dateString) throws ParseException {
-        if (dateString == null) {
-            return null;
-        }
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        return df.parse(dateString.trim());
     }
 }

@@ -1,6 +1,6 @@
 package com.portal.filter;
 
-import beans.User;
+import pojos.User;
 import org.apache.log4j.Logger;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -32,7 +32,7 @@ public class ServletSecurityFilter implements Filter {
         String type = "GUEST";
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            type = "GUEST";
+                type = "GUEST";
         }else if (user.getRole().equals("admin")) {
                 type = "ADMINISTRATOR";
         }else if (user.getRole().equals("user")){

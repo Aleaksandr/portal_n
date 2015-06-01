@@ -1,12 +1,19 @@
 package bl.simple;
 
-import beans.New;
+import dao.GenericDao;
+import impl.DaoFactoryImpl;
+import impl.NewsDaoImpl;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import pojos.News;
 import bl.AbstractEntityManager;
 import bl.NewsManager;
 import dao.INewsDao;
 import exception.DataAccessException;
 import exeption.ModelException;
 import org.apache.log4j.Logger;
+import util.DaoFactory;
+
 import java.util.Date;
 import java.util.List;
 
@@ -15,9 +22,13 @@ import java.util.List;
  * Extended class of News
  */
 
-public class SimpleNewsManager extends AbstractEntityManager<New, Integer> implements NewsManager {
+public class SimpleNewsManager extends AbstractEntityManager<News> implements NewsManager {
 
 	protected static Logger logger = Logger.getLogger(SimpleNewsManager.class);
+	//private final ThreadLocal sessionStatus = new ThreadLocal();
+	private Session session;
+	private Transaction transaction;
+
 
 	@Override
 	protected INewsDao getDao() {
@@ -30,7 +41,13 @@ public class SimpleNewsManager extends AbstractEntityManager<New, Integer> imple
 	}
 
 	@Override
-	public List<New> getByDate(Date date) throws ModelException, DataAccessException {
-		return DaoFactoryProvider.getFactory().getNewsDao().getNewsByDate(date);
+	public List<News> getByDate(Date date) throws ModelException, DataAccessException {
+		return null;
 	}
+
+
+	/*@Override
+	public void clearSession(ThreadLocal sessionStatus) {
+		getDao().clearSession(sessionStatus);
+	}*/
 }

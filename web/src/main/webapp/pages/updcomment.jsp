@@ -2,7 +2,7 @@
 <%@ page import="com.portal.commands.UpdateCommentCommand" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
-<jsp:useBean id="updcomment" class="beans.Comment" scope="session"></jsp:useBean>
+<jsp:useBean id="updcomment" class="pojos.Comment" scope="session"></jsp:useBean>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

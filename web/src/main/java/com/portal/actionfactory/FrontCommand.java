@@ -1,6 +1,7 @@
 package com.portal.actionfactory;
 
 import com.portal.controller.FrontController;
+import exception.DaoException;
 import exception.DataAccessException;
 import exeption.ModelException;
 import org.apache.log4j.Logger;
@@ -26,7 +27,7 @@ abstract public class FrontCommand {
         this.response = response;
     }
 
-    abstract public void process() throws ServletException, IOException, DataAccessException, ModelException;
+    abstract public void process() throws ServletException, IOException, DataAccessException, ModelException, DaoException;
 
     protected void forward(String target) throws ServletException, IOException {
         RequestDispatcher dispatcher = context.getRequestDispatcher(target);

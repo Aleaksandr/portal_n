@@ -1,6 +1,6 @@
 package bl;
 
-import beans.New;
+import pojos.News;
 import exception.DataAccessException;
 import exeption.ModelException;
 import java.util.Date;
@@ -11,8 +11,8 @@ import java.util.List;
  * Interface of NewsManager
  */
 
-public interface NewsManager extends EntityManager<New, Integer> {
+public interface NewsManager extends EntityManager<News> {
 
-	List<New> getByDate(Date date) throws ModelException, DataAccessException;
+	List<News> getByDate(Date date) throws ModelException, DataAccessException;
 
 }

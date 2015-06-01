@@ -1,6 +1,7 @@
 package com.portal.commands;
 
-import beans.Comment;
+import exception.PersistException;
+import pojos.Comment;
 import com.portal.actionfactory.BlManager;
 import com.portal.actionfactory.FrontCommand;
 import com.portal.util.Paths;
@@ -22,7 +23,12 @@ public class FormCommentUpdCommand extends FrontCommand {
         logger.info("FormCommentUpdCommand begin");
         HttpSession session = request.getSession();
         Integer comId = Integer.valueOf(request.getParameter("comId"));
-        Comment updcomment = BlManager.getCommentManager().getByKey(comId);
+        Comment updcomment = null;
+        try {
+            updcomment = BlManager.getCommentManager().getByKey(comId);
+        } catch (PersistException e) {
+            logger.error("Error in " + NAME + e);;
+        }
         session.setAttribute("updcomment", updcomment);
         forward(Paths.UPDCOMMENT);
     }

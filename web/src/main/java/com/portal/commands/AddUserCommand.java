@@ -1,6 +1,7 @@
 package com.portal.commands;
 
-import beans.User;
+import exception.PersistException;
+import pojos.User;
 import com.portal.util.Attributes;
 import com.portal.actionfactory.BlManager;
 import com.portal.actionfactory.FrontCommand;
@@ -41,17 +42,19 @@ public class AddUserCommand extends FrontCommand {
                 forward(Paths.REGISTER);
 
             } else {
-                User user = BlManager.getUserManager().save(regUser);
-                session.setAttribute("user", user);
+                BlManager.getUserManager().save(regUser);
+                session.setAttribute("user", regUser);
                 session.setAttribute("message", null);
-                logger.info("Reg User After: " + user);
+                logger.info("Reg User After: " + regUser);
                 request.setAttribute(Attributes.COMMAND, CheckCommand.NAME);
                 forward(Paths.FRONT);
             }
         } catch (ModelException e) {
-            logger.error(e);
-        } catch (DataAccessException e) {
-            logger.error(e);
+            logger.error("Error in "+ NAME + e);
+        } catch (DataAccessException e1) {
+            logger.error("Error in "+ NAME + e1);
+        } catch (PersistException e2) {
+            logger.error("Error in "+ NAME + e2);
         }
     }
 }

@@ -40,6 +40,7 @@ class DaoFactoryProvider {
 			throw new RuntimeException(e);
 		}
 	}
+
 	static DaoFactory getFactory() {
 		return daoFactory;
 	}

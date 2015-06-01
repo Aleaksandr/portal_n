@@ -1,6 +1,7 @@
 package com.portal.commands;
 
-import beans.New;
+import exception.PersistException;
+import pojos.News;
 import com.portal.actionfactory.BlManager;
 import com.portal.actionfactory.FrontCommand;
 import com.portal.util.Attributes;
@@ -23,8 +24,8 @@ public class UpdateNewsCommand extends FrontCommand {
 
         HttpSession session = request.getSession();
 
-        New updNews;
-        updNews = (New) session.getAttribute("updnews");
+        News updNews;
+        updNews = (News) session.getAttribute("updnews");
         String updTextNews = request.getParameter("newscorrect");
         String updTitleNews = request.getParameter("titlenewscorrect");
         updNews.setTitle(updTitleNews);
@@ -32,8 +33,8 @@ public class UpdateNewsCommand extends FrontCommand {
 
         try {
             BlManager.getNewsManager().update(updNews);
-        } catch (ModelException e) {
-            logger.error(e);
+        } catch (PersistException e) {
+            logger.error("Error in "+ NAME + e);;
         }
         request.setAttribute(Attributes.COMMAND, IndexCommand.NAME);
         forward(Paths.FRONT);

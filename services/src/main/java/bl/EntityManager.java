@@ -1,7 +1,12 @@
 package bl;
 
-import beans.Identifiable;
+import exception.DaoException;
+import exception.PersistException;
 import exeption.ModelException;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,16 +15,22 @@ import java.util.List;
  */
 
 
-public interface EntityManager<T extends Identifiable<K>, K> {
-	List<T> getAll() throws ModelException;
+public interface EntityManager<T> {
 
-	T getByKey(K key) throws ModelException;
-	
-	T save(T entity) throws ModelException;
+	Session getSession();
 
-	void remove(K key) throws ModelException;
+	void cleanSession(Boolean needClean);
 
-	void update(T entity) throws ModelException;
-	
-	//int getCount() throws ModelException;
+	List<T> loadAll() throws HibernateException, PersistException;
+
+	T getByKey(Serializable id) throws HibernateException, PersistException;
+
+	void save(T entity) throws HibernateException, PersistException;
+
+	T load(Serializable id) throws HibernateException, PersistException;
+
+	void remove(T entity) throws HibernateException, PersistException;
+
+	void update(T entity) throws HibernateException, PersistException;
+
 }

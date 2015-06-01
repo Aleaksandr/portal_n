@@ -1,6 +1,9 @@
 package bl;
 
-import beans.Comment;
+import exception.PersistException;
+import pojos.Comment;
+import pojos.News;
+import exception.DaoException;
 import exception.DataAccessException;
 import exeption.ModelException;
 
@@ -11,6 +14,6 @@ import java.util.List;
  * Interface of CommentManager
  */
 
-public interface CommentManager extends EntityManager<Comment, Integer> {
-    List<Comment> getCommentsByItem (Integer item_id) throws ModelException, DataAccessException;
+public interface CommentManager extends EntityManager<Comment> {
+    List<Comment> getCommentsByItem (News nw) throws ModelException, DataAccessException, DaoException, PersistException;
 }

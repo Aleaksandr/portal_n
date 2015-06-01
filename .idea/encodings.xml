@@ -11,6 +11,7 @@
     <file url="file://$PROJECT_DIR$/web/src/main/webapp/pages/addcomment.jsp" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/web/src/main/webapp/pages/addnews.jsp" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/web/src/main/webapp/pages/changeuserset.jsp" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/web/src/main/webapp/pages/error.jsp" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/web/src/main/webapp/pages/login.jsp" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/web/src/main/webapp/pages/register.jsp" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/web/src/main/webapp/pages/updcomment.jsp" charset="windows-1251" />

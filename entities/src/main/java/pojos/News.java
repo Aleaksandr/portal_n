@@ -1,47 +1,76 @@
-package beans;
-
-import org.hibernate.validator.constraints.NotEmpty;
+package pojos;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+
 
 /**
  * Created by hirs akeaksandr on 25.04.15.
- * New bean
+ * News bean
  */
 
 @Entity
-public class New implements Serializable, Identifiable<Integer> {
-    private static final long serialVersionUID = 1L;
-    @Column
-    @NotEmpty
-    private Integer id;
-    @Column
-    @NotEmpty
+@Cache (usage = CacheConcurrencyStrategy.READ_WRITE)
+@Table(name = "news")
+public class News implements Serializable {
+
+    private static final long serialVersionUID = 8785629573211348834L;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer new_id;
+
+    @Column (name = "title")
     private String title;
-    @Column
-    @NotEmpty
+
+    @Column (name = "title4menu")
     private String title4menu;
-    @Column
-    @NotEmpty
+
+    @Column (name = "author")
     private String author;
-    @Column
-    @NotEmpty
+
+    @Column (name = "date")
+    @Temporal(TemporalType.DATE)
+    @NotNull
     private Date date;
-    @Column
-    @NotEmpty
+
+    @Column (name = "item", columnDefinition="text")
     private String item;
 
-    public New() {
+    @OneToMany (mappedBy = "nw", cascade = CascadeType.ALL)
+    private List<Comment> comments;
+
+    public News() {
+    }
+
+    public News(String title, String menutitle, String author, Date date, String item){
+         this.title = title;
+         this.title4menu = menutitle;
+         this.author = author;
+         this.date = date;
+         this.item = item;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> persons) {
+        this.comments = persons;
     }
 
     public Integer getId() {
-        return id;
+        return new_id;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.new_id = id;
     }
 
     public String getTitle() {
@@ -88,11 +117,11 @@ public class New implements Serializable, Identifiable<Integer> {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof New)) return false;
+        if (!(o instanceof News)) return false;
 
-        New anew = (New) o;
+        News anew = (News) o;
 
-        if (id != null ? !id.equals(anew.id) : anew.id != null) return false;
+        if (new_id != null ? !new_id.equals(anew.new_id) : anew.new_id != null) return false;
         if (title != null ? !title.equals(anew.title) : anew.title != null) return false;
         if (title4menu != null ? !title4menu.equals(anew.title4menu) : anew.title4menu != null) return false;
         if (author != null ? !author.equals(anew.author) : anew.author != null) return false;
@@ -104,7 +133,7 @@ public class New implements Serializable, Identifiable<Integer> {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = new_id != null ? new_id.hashCode() : 0;
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (title4menu != null ? title4menu.hashCode() : 0);
         result = 31 * result + (author != null ? author.hashCode() : 0);
@@ -115,6 +144,6 @@ public class New implements Serializable, Identifiable<Integer> {
 
     @Override
     public String toString() {
-        return "Person : id: " + id + " Title: " + title + " Title4menu: " + title4menu + " Author: " + author + " Date: " + date;// + personAddress;
+        return "News: id: " + new_id + " Title: " + title + " Title4menu: " + title4menu + " Author: " + author + " Date: " + date;
     }
 }

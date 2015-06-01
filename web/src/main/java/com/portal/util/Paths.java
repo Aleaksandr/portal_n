@@ -1,7 +1,7 @@
 package com.portal.util;
 
 public abstract class Paths {
-    public final static String FRONT = "/com/portal/FrontController";
+    public final static String FRONT = "/FrontController";
     public final static String INDEX = "/pages/front.jsp";
     public final static String LOGIN = "/pages/login.jsp";
     public final static String REGISTER = "/pages/register.jsp";

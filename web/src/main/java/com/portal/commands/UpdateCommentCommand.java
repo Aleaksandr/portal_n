@@ -1,7 +1,7 @@
 package com.portal.commands;
 
-import beans.Comment;
-import beans.User;
+import exception.PersistException;
+import pojos.Comment;
 import com.portal.actionfactory.BlManager;
 import com.portal.actionfactory.FrontCommand;
 import com.portal.util.Attributes;
@@ -12,10 +12,6 @@ import org.apache.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 public class UpdateCommentCommand extends FrontCommand {
@@ -29,15 +25,15 @@ public class UpdateCommentCommand extends FrontCommand {
 
         HttpSession session = request.getSession();
 
-        Comment updCom = new Comment();
+        Comment updCom;
         updCom = (Comment) session.getAttribute("updcomment");
         String updTextComment = request.getParameter("commentcorrect");
         updCom.setComment(updTextComment);
 
         try {
             BlManager.getCommentManager().update(updCom);
-        } catch (ModelException e) {
-            logger.error(e);
+        } catch (PersistException e) {
+            logger.error("Error in "+ NAME + e);;
         }
         request.setAttribute(Attributes.COMMAND, IndexCommand.NAME);
         forward(Paths.FRONT);

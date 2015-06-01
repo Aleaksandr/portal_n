@@ -1,6 +1,6 @@
 package com.portal.commands;
 
-import beans.User;
+import pojos.User;
 import com.portal.actionfactory.FrontCommand;
 import com.portal.util.Paths;
 import exception.DataAccessException;

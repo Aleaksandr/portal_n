@@ -1,6 +1,7 @@
 package com.portal.commands;
 
-import beans.User;
+import exception.PersistException;
+import pojos.User;
 import com.mysql.jdbc.StringUtils;
 import com.portal.actionfactory.BlManager;
 import com.portal.actionfactory.FrontCommand;
@@ -22,14 +23,12 @@ public class UpdateUserCommand extends FrontCommand {
     public void process() throws ServletException, IOException {
 
         logger.info("UpdateUserCommand begin");
-        request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
-        User updUser = new User();
+
         String emailReg = request.getParameter("email");
         String passReg = request.getParameter("pass");
         User sesUser = (User) session.getAttribute("user");
-        Integer id = sesUser.getId();
-        String role = sesUser.getRole();
+
         logger.info("User Email: " + emailReg + " User pass: " + passReg);
         if (StringUtils.isNullOrEmpty(emailReg) || StringUtils.isNullOrEmpty(passReg)) {
             String message = "Some fields are not fill";
@@ -38,17 +37,15 @@ public class UpdateUserCommand extends FrontCommand {
             request.setAttribute(Attributes.COMMAND, ChangeusersettingCommand.NAME);
             forward(Paths.FRONT);
         } else {
-            updUser.setId(id);
-            updUser.setEmail(emailReg);
-            updUser.setPass(passReg);
-            updUser.setRole(role);
+            sesUser.setEmail(emailReg);
+            sesUser.setPass(passReg);
 
             try {
-                BlManager.getUserManager().update(updUser);
-                session.setAttribute("user", updUser);
-                logger.info("Updated User: " + updUser);
-            } catch (ModelException e) {
-                logger.error(e);
+                BlManager.getUserManager().update(sesUser);
+                session.setAttribute("user", sesUser);
+                logger.info("Updated User: " + sesUser);
+            } catch (PersistException e) {
+                logger.error("Error in "+ NAME + e);;
             }
             request.setAttribute(Attributes.COMMAND, IndexCommand.NAME);
             forward(Paths.FRONT);

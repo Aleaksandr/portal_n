@@ -1,8 +1,14 @@
-package beans;
+package pojos;
 
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
 import org.hibernate.validator.constraints.NotEmpty;
-import javax.persistence.Column;
+
+import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,36 +17,41 @@ import java.util.Date;
  * Comment bean
  */
 
-@javax.persistence.Entity
-public class Comment implements Serializable, Identifiable<Integer> {
-    private static final long serialVersionUID = 1L;
-    @Column
-    @NotEmpty
-    private Integer id;
-    @Column
-    @NotEmpty
+@Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Table(name = "comments")
+
+public class Comment implements Serializable {
+    private static final long serialVersionUID = -256343997503246240L;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer com_id;
+
+    @Column(name = "user_id")
     private Integer user_id;
-    @Column
-    @NotEmpty
-    private Integer news_id;
-    @Column
-    @NotEmpty
+
+    @Column(name = "comment", columnDefinition="text")
     private String comment;
-    @Column
-    @NotEmpty
+
+    @Column(name = "date")
+    @Temporal(TemporalType.DATE)
+    @NotNull
     private Date date;
 
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "news_id")
+    private News nw;
 
     public Comment() {
     }
 
     public Integer getId() {
-        return id;
+        return com_id;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.com_id = id;
     }
 
     public Integer getUser_id() {
@@ -49,14 +60,6 @@ public class Comment implements Serializable, Identifiable<Integer> {
 
     public void setUser_id(Integer user_id) {
         this.user_id = user_id;
-    }
-
-    public Integer getNews_id() {
-        return news_id;
-    }
-
-    public void setNews_id(Integer news_id) {
-        this.news_id = news_id;
     }
 
     public String getComment() {
@@ -75,6 +78,14 @@ public class Comment implements Serializable, Identifiable<Integer> {
         this.date = date;
     }
 
+    public News getNew() {
+        return nw;
+    }
+
+    public void setNew(News nw) {
+        this.nw = nw;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,9 +93,9 @@ public class Comment implements Serializable, Identifiable<Integer> {
 
         Comment person = (Comment) o;
 
-        if (id != null ? !id.equals(person.id) : person.id != null) return false;
+        if (com_id != null ? !com_id.equals(person.com_id) : person.com_id != null) return false;
         if (user_id != null ? !user_id.equals(person.user_id) : person.user_id != null) return false;
-        if (news_id != null ? !news_id.equals(person.news_id) : person.news_id != null) return false;
+    //    if (news_id != null ? !news_id.equals(person.news_id) : person.news_id != null) return false;
         if (comment != null ? !comment.equals(person.comment) : person.comment != null) return false;
         if (date != null ? !date.equals(person.date) : person.date != null) return false;
 
@@ -93,9 +104,9 @@ public class Comment implements Serializable, Identifiable<Integer> {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = com_id != null ? com_id.hashCode() : 0;
         result = 31 * result + (user_id != null ? user_id.hashCode() : 0);
-        result = 31 * result + (news_id != null ? news_id.hashCode() : 0);
+      //  result = 31 * result + (news_id != null ? news_id.hashCode() : 0);
         result = 31 * result + (comment != null ? comment.hashCode() : 0);
         result = 31 * result + (date != null ? date.hashCode() : 0);
         return result;
@@ -103,6 +114,6 @@ public class Comment implements Serializable, Identifiable<Integer> {
 
     @Override
     public String toString() {
-        return "CommentId: " + id + " UserId: " + user_id + " NewsId: " + news_id + " Date: " + date;
+        return "CommentId: " + com_id + " UserId: " + user_id + " Date: " + date;
     }
 }

@@ -1,7 +1,12 @@
 package dao;
 
-import beans.Comment;
+import exception.PersistException;
+import pojos.Comment;
+import pojos.News;
+import exception.DaoException;
 import exception.DataAccessException;
+import pojos.User;
+
 import java.util.List;
 
 /**
@@ -9,8 +14,9 @@ import java.util.List;
  * Extended interface class for CommentDao
  */
 
-public interface ICommentDao extends GenericDao<Comment, Integer> {
+public interface ICommentDao extends GenericDao<Comment> {
 
-    List<Comment> getCommentByUser(String user)throws DataAccessException;
-    List<Comment> getCommentByItem(Integer newsid)throws DataAccessException;
+    List<Comment> getCommentByUser(User user) throws PersistException;
+
+    List<Comment> getCommentByItem(News nw)throws PersistException;
 }

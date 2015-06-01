@@ -1,8 +1,12 @@
-package beans;
+package pojos;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * Created by hirs akeaksandr on 25.04.15.
@@ -10,19 +14,23 @@ import java.io.Serializable;
  */
 
 @Entity
-public class User implements Serializable, Identifiable<Integer> {
-    private static final long serialVersionUID = 1L;
-    @Column
-    @NotEmpty
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Table(name = "users")
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 9128510778543609157L;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column
-    @NotEmpty
+
+    @Column(name = "email")
     private String email;
-    @Column
-    @NotEmpty
+
+    @Column(name = "pass")
     private String pass;
-    @Column
-    @NotEmpty
+
+    @Column(name = "role")
     private String role;
 
 

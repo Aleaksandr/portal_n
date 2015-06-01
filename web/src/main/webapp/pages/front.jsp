@@ -4,7 +4,7 @@
 <%@ page import="com.portal.commands.UserinfoCommand" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<jsp:useBean id="newsitem" class="beans.New" scope="session"></jsp:useBean>
+<jsp:useBean id="newsitem" class="pojos.News" scope="session"></jsp:useBean>
 
 <!DOCTYPE html>
 <html>
@@ -14,7 +14,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta charset="utf-8"/>
-    <title>news portal</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <!-- Bootstrap -->
@@ -49,7 +48,7 @@
                         <div class="panel-heading">Top news today</div>
                         <ul class="list-group">
                             <c:forEach var="nw" items="${newslist}">
-                                <a class="list-group-item" href="index?item_id=${nw.id}">${nw.title4menu}</a>
+                                <a class="list-group-item" href="FrontController?item_id=${nw.id}">${nw.title4menu}</a>
                             </c:forEach>
                         </ul>
                     </div>

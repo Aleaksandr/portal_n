@@ -1,6 +1,8 @@
 package com.portal.commands;
 
-import beans.New;
+import com.portal.util.Attributes;
+import exception.PersistException;
+import pojos.News;
 import com.portal.actionfactory.BlManager;
 import com.portal.actionfactory.FrontCommand;
 import com.portal.util.Paths;
@@ -21,8 +23,13 @@ public class FormNewsUpdCommand extends FrontCommand {
     public void process() throws ServletException, IOException, DataAccessException, ModelException {
         logger.info("FormNewsUpdCommand begin");
         HttpSession session = request.getSession();
-        Integer newsId = Integer.valueOf((String)session.getAttribute("item_id"));
-        New updnews = BlManager.getNewsManager().getByKey(newsId);
+        Integer newsId = Integer.valueOf((String)session.getAttribute(Attributes.ITEMID));
+        News updnews = null;
+        try {
+            updnews = BlManager.getNewsManager().getByKey(newsId);
+        } catch (PersistException e) {
+            logger.error("Error in " + NAME + e);;
+        }
         session.setAttribute("updnews", updnews);
         forward(Paths.UPDNEWS);
     }

@@ -1,32 +1,35 @@
 package impl;
 
-import beans.Comment;
+import exception.PersistException;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
+import pojos.Comment;
+import pojos.News;
 import dao.BaseDbDao;
 import dao.ICommentDao;
-import dao.NullableHelper;
+import exception.DaoException;
 import exception.DataAccessException;
 import org.apache.log4j.Logger;
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import pojos.User;
+import util.HibernateUtil;
+
 import java.util.List;
 
 /**
  * Created by hirs akeaksandr on 25.04.15.
- * Extended class to work with Comment bean and mysql database
+ * Extended class to work with Comment bean and hibernate
  */
 
-public class CommentDaoImpl extends BaseDbDao<Comment, Integer> implements ICommentDao {
+public class CommentDaoImpl extends BaseDbDao<Comment> implements ICommentDao {
 
     private static Logger logger = Logger.getLogger(CommentDaoImpl.class);
 
     protected String attachmentsTable = "`newportal`.`comments`";
 
-    public CommentDaoImpl(DataSource dataSource) {
-        super(dataSource);
+    public CommentDaoImpl() {
+        super();
     }
 
     private java.sql.Date convertDateToSql(java.util.Date date) {
@@ -37,118 +40,30 @@ public class CommentDaoImpl extends BaseDbDao<Comment, Integer> implements IComm
     }
 
     @Override
-    public String getSelectQuery() {
-        return "SELECT `id`, `user_id`, `news_id`, `comment`, `date` FROM " + attachmentsTable;
-    }
-
-    @Override
-    public String getInsertQuery() {
-        return "INSERT INTO " + attachmentsTable + " (`id`, `user_id`, `news_id`, `comment`, `date`) "
-                + "VALUES (?, ?, ?, ?, ?);";
-    }
-
-    @Override
-    public String getUpdateQuery() {
-        return "UPDATE " + attachmentsTable + " SET `comment`=? WHERE `id`=?;";
-    }
-
-    @Override
-    public String getDeleteQuery() {
-        return "DELETE FROM " + attachmentsTable + " WHERE `id`=?;";
-    }
-
-    @Override
-    protected String getCountQuery() {
-        return "SELECT count(*) FROM " + attachmentsTable;
-    }
-
-    @Override
-    protected List<Comment> parseResultSet(ResultSet rs) throws DataAccessException {
-        ArrayList<Comment> result = new ArrayList<Comment>();
+    public List<Comment> getCommentByUser(User user) throws PersistException {
+        List<Comment> commList = null;
         try {
-            while (rs.next()) {
-                Comment comment = new Comment();
-                comment.setId(NullableHelper.getInt("id", rs));
-                comment.setUser_id(NullableHelper.getInt("user_id", rs));
-                comment.setNews_id(NullableHelper.getInt("news_id", rs));
-                comment.setComment(rs.getString("comment"));
-                comment.setDate(rs.getDate("date"));
-                result.add(comment);
-            }
-        } catch (Exception e) {
-            throw new DataAccessException(e);
+            Session session = getSession();
+            Criteria criteria = session.createCriteria(pojos.Comment.class);
+            commList = criteria.add(Restrictions.eq("news_id", user.getId())).list();
+        } catch (HibernateException e) {
+            logger.error("Error getCommentByUser Comment in Dao" + e);
+            throw new PersistException(e);
         }
-        return result;
+        return commList;
+
     }
 
     @Override
-    protected void prepareStatementForInsert(PreparedStatement statement, Comment comment)
-            throws DataAccessException {
+    public List<Comment> getCommentByItem(News nw) throws PersistException {
+        List<Comment> commList = null;
         try {
-            NullableHelper.setInt(statement, 1, comment.getId());
-            NullableHelper.setInt(statement, 2, comment.getUser_id());
-            NullableHelper.setInt(statement, 3, comment.getNews_id());
-            statement.setString(4, comment.getComment());
-            statement.setDate(5, convertDateToSql(comment.getDate()));
-        } catch (SQLException e) {
-            throw new DataAccessException(e);
+            Session session = getSession();
+            commList = nw.getComments();
+        } catch (HibernateException e) {
+            logger.error("Error getCommentByItem Comment in Dao" + e);
+            throw new PersistException(e);
         }
-    }
-
-    @Override
-    protected void prepareStatementForUpdate(PreparedStatement statement, Comment comment)
-            throws DataAccessException {
-        try {
-            statement.setString(1, comment.getComment());
-            NullableHelper.setInt(statement, 2, comment.getId());
-        } catch (SQLException e) {
-            throw new DataAccessException(e);
-        }
-    }
-
-    @Override
-    public List<Comment> getCommentByUser(String user) throws DataAccessException {
-        if (user == null) {
-            return null;
-        }
-        List<Comment> list;
-        String sql = getSelectQuery();
-        sql += " WHERE user = ?";
-        try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setObject(1, user);
-            ResultSet rs = statement.executeQuery();
-            list = parseResultSet(rs);
-            statement.close();
-        } catch (SQLException e) {
-            throw new DataAccessException(e);
-        }
-        if (list == null || list.isEmpty()) {
-            return null;
-        }
-        return list;
-    }
-
-    @Override
-    public List<Comment> getCommentByItem(Integer newsId) throws DataAccessException {
-        if (newsId == null) {
-            return null;
-        }
-        List<Comment> list;
-        String sql = getSelectQuery();
-        sql += " WHERE news_id = ?";
-        try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setObject(1, newsId);
-            ResultSet rs = statement.executeQuery();
-            list = parseResultSet(rs);
-            statement.close();
-        } catch (SQLException e) {
-            throw new DataAccessException(e);
-        }
-        if (list == null || list.isEmpty()) {
-            return null;
-        }
-        return list;
+        return commList;
     }
 }

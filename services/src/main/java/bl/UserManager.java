@@ -1,6 +1,7 @@
 package bl;
 
-import beans.User;
+import exception.PersistException;
+import pojos.User;
 import exception.DataAccessException;
 import exeption.ModelException;
 
@@ -9,7 +10,7 @@ import exeption.ModelException;
  * Interface of UserManager
  */
 
-public interface UserManager extends EntityManager<User, Integer> {
-    User getUserByEmail(String email) throws ModelException, DataAccessException;
+public interface UserManager extends EntityManager<User> {
 
+    User getUserByEmail(String email) throws ModelException, DataAccessException, PersistException;
 }

@@ -1,7 +1,10 @@
 package dao;
 
-import beans.New;
+import exception.DaoException;
+import exception.PersistException;
+import pojos.News;
 import exception.DataAccessException;
+
 import java.util.Date;
 import java.util.List;
 
@@ -10,8 +13,11 @@ import java.util.List;
  * Extended interface class for NewsDao
  */
 
-public interface INewsDao extends GenericDao<New, Integer> {
+public interface INewsDao extends GenericDao<News> {
 
-    List<New> getNewsByAuthor(String author)throws DataAccessException;
-    List<New> getNewsByDate(Date date)throws DataAccessException;
+    List<News> getNewsByAuthor(String author) throws DataAccessException, PersistException;
+
+    List<News> getNewsByDate(Date date) throws DataAccessException;
+
+    News getNewsByTitle(String title) throws DataAccessException, PersistException;
 }

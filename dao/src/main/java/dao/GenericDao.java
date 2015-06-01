@@ -1,24 +1,36 @@
 package dao;
 
+import exception.DaoException;
 import exception.DataAccessException;
+import exception.PersistException;
+import org.hibernate.Session;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by hirs akeaksandr on 25.04.15.
- * General interface class fo DAO
+ * General interface class fo dao
  */
 
-public interface GenericDao<T, K> {
+public interface GenericDao<T> {
 
-    public List<T> getAll() throws DataAccessException;
+    Session getSession();
 
-    public T getByKey(K key) throws DataAccessException;
+    void cleanSession(Boolean needClean);
 
-    public T add(T object) throws DataAccessException;
+    public List<T> loadAll() throws PersistException;
 
-    public void delete(K key) throws DataAccessException;
+    public T getByKey(Serializable id) throws PersistException;
 
-    public void update(T object) throws DataAccessException;
+    public void add(T object) throws PersistException;
+
+    T load(Serializable id) throws PersistException;
+
+    public void delete(T t) throws PersistException;
+
+    public void update(T object) throws PersistException;
+
 
 }
 

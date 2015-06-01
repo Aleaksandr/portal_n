@@ -1,6 +1,7 @@
 package dao;
 
-import beans.User;
+import exception.PersistException;
+import pojos.User;
 import exception.DataAccessException;
 
 /**
@@ -8,7 +9,7 @@ import exception.DataAccessException;
  * Extended interface class for UserDao
  */
 
-public interface IUserDao extends GenericDao<User, Integer> {
+public interface IUserDao extends GenericDao<User> {
 
-    User getUserByEmail(String email)throws DataAccessException;
+    User getUserByEmail(String email) throws DataAccessException, PersistException;
 }
