@@ -1,6 +1,6 @@
 package pojos;
 
-import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -22,7 +22,7 @@ public class User implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer uid;
 
     @Column(name = "email")
     private String email;
@@ -33,16 +33,25 @@ public class User implements Serializable {
     @Column(name = "role")
     private String role;
 
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private UserDetail userDetail;
 
-    public User() {
+
+    public UserDetail getUserDetail() {
+        return userDetail;
+    }
+
+    public void setUserDetail(UserDetail userDetail) {
+        this.userDetail = userDetail;
     }
 
     public Integer getId() {
-        return id;
+        return uid;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.uid = id;
     }
 
     public String getEmail() {
@@ -76,7 +85,7 @@ public class User implements Serializable {
 
         User person = (User) o;
 
-        if (id != null ? !id.equals(person.id) : person.id != null) return false;
+        if (uid != null ? !uid.equals(person.uid) : person.uid != null) return false;
         if (email != null ? !email.equals(person.email) : person.email != null) return false;
         if (role != null ? !role.equals(person.role) : person.role != null) return false;
         if (pass != null ? !pass.equals(person.pass) : person.pass != null) return false;
@@ -86,7 +95,7 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = uid != null ? uid.hashCode() : 0;
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
         result = 31 * result + (pass != null ? pass.hashCode() : 0);
@@ -95,6 +104,6 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User : id: " + id + " E-mail: " + email + " Role: " + role;
+        return "User : id: " + uid + " E-mail: " + email + " Role: " + role;
     }
 }

@@ -28,6 +28,7 @@ public class UpdateUserCommand extends FrontCommand {
         String emailReg = request.getParameter("email");
         String passReg = request.getParameter("pass");
         User sesUser = (User) session.getAttribute("user");
+        BlManager.getUserManager().cleanSession(true);
 
         logger.info("User Email: " + emailReg + " User pass: " + passReg);
         if (StringUtils.isNullOrEmpty(emailReg) || StringUtils.isNullOrEmpty(passReg)) {

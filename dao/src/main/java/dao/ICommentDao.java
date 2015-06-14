@@ -16,7 +16,9 @@ import java.util.List;
 
 public interface ICommentDao extends GenericDao<Comment> {
 
-    List<Comment> getCommentByUser(User user) throws PersistException;
-
+    /** Gets the the appropriate List<Comment> by News object */
     List<Comment> getCommentByItem(News nw)throws PersistException;
+
+    /** Gets the the appropriate List<Comment> by user parameter value */
+    List<Comment> getCommentByUser(User user) throws PersistException;
 }

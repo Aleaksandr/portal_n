@@ -12,7 +12,7 @@ import java.util.Properties;
 
 /**
  * Created by hirs akeaksandr on 25.04.15.
- * Class to connect database and return bean's dao
+ * It implements the interface methods to connect to the database for domain entity and building factory
  */
 
 public class DaoFactoryImpl implements DaoFactory {

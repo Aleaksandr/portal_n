@@ -22,6 +22,8 @@ public class DelCommentCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+
+        BlManager.getCommentManager().cleanSession(true);
         logger.info("DelCommentCommand begin");
         Integer comId = Integer.valueOf(request.getParameter("comId"));
         logger.info("Com Id: "+comId);

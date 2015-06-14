@@ -11,9 +11,8 @@
 package exception;
 
 /**
- * User: yslabko
- * Date: 14.04.14
- * Time: 15:00
+ * Created by hirs akeaksandr on 25.04.15.
+ * Extended exception class to Dao access
  */
 public class DaoException extends Exception {
 

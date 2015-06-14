@@ -3,7 +3,6 @@ package pojos;
 
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -41,6 +40,7 @@ public class Comment implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "news_id")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private News nw;
 
     public Comment() {

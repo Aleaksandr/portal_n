@@ -26,25 +26,18 @@ public class CommentDaoImpl extends BaseDbDao<Comment> implements ICommentDao {
 
     private static Logger logger = Logger.getLogger(CommentDaoImpl.class);
 
-    protected String attachmentsTable = "`newportal`.`comments`";
-
     public CommentDaoImpl() {
         super();
     }
 
-    private java.sql.Date convertDateToSql(java.util.Date date) {
-        if (date == null) {
-            return null;
-        }
-        return new java.sql.Date(date.getTime());
-    }
-
+    /** Gets the the appropriate List<Comment> by user parameter value */
     @Override
     public List<Comment> getCommentByUser(User user) throws PersistException {
         List<Comment> commList = null;
         try {
             Session session = getSession();
             Criteria criteria = session.createCriteria(pojos.Comment.class);
+            criteria.setCacheable(true);
             commList = criteria.add(Restrictions.eq("news_id", user.getId())).list();
         } catch (HibernateException e) {
             logger.error("Error getCommentByUser Comment in Dao" + e);
@@ -54,6 +47,7 @@ public class CommentDaoImpl extends BaseDbDao<Comment> implements ICommentDao {
 
     }
 
+    /** Gets the the appropriate List<Comment> by News object */
     @Override
     public List<Comment> getCommentByItem(News nw) throws PersistException {
         List<Comment> commList = null;

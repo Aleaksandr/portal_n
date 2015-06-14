@@ -1,5 +1,6 @@
 package bl;
 
+import exception.PersistException;
 import pojos.News;
 import exception.DataAccessException;
 import exeption.ModelException;
@@ -13,6 +14,15 @@ import java.util.List;
 
 public interface NewsManager extends EntityManager<News> {
 
-	List<News> getByDate(Date date) throws ModelException, DataAccessException;
+	/** Gets the the appropriate List<News> by author value parameter */
+	List<News> getNewsByAuthor(String author) throws DataAccessException;
 
+	/** Gets the the appropriate List<News> by date value parameter */
+	List<News> getNewsByDate(Date date);
+
+	/** Gets the the appropriate News by title value parameter */
+	News getNewsByTitle(String title) throws DataAccessException;
+
+	/** Gets the the appropriate List<News> by period */
+	public List<News> getNewsByPeriod(Integer first, Integer second) throws DataAccessException;
 }

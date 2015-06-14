@@ -7,7 +7,6 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
-import util.DaoConstants;
 import util.HibernateUtil;
 
 import java.io.Serializable;
@@ -16,24 +15,16 @@ import java.util.List;
 
 /**
  * Created by hirs akeaksandr on 25.04.15.
- * Abstract class for database 'newportal'
+ *  An abstract class provides a base implementation CRUD operations using JDBC.
+ * @param <T>  type of object persistence
  */
 
 public abstract class BaseDbDao<T> implements GenericDao<T> {
 
     private static Logger logger = Logger.getLogger(BaseDbDao.class);
-
-
-   // private SessionFactory sessionFactory;
-   // private final ThreadLocal sessions = new ThreadLocal();
-   // private final ThreadLocal needClean = new ThreadLocal(){{set(new Boolean(false));}};
-    //private boolean needClean = false;
     protected Session session;
 
-
     public BaseDbDao() {
-        /*HibernateUtil util = HibernateUtil.getHibernateUtil();
-        sessionFactory = util.getSessionFactory();*/
     }
 
     @Override
@@ -41,28 +32,17 @@ public abstract class BaseDbDao<T> implements GenericDao<T> {
         return HibernateUtil.getHibernateUtil().getSession();
     }
 
-
-
-
-   /* public void clearSession(ThreadLocal sessionStatus) {
-       // boolean cleaner = true;
-        Session session = (Session) sessions.get();
-        boolean cleaner = (boolean) sessionStatus.get();
-        if (cleaner) {
-            if ((session != null) && (session.isOpen())) {
-                logger.info("Session CLEAN!!!");
-                session.clear();
-            }
-            sessionStatus.set(false);
-        }
-        sessions.set(session);
-    }*/
+    @Override
+    public void cleanSession(Boolean needClean) {
+        HibernateUtil.getHibernateUtil().cleanSession(needClean);
+    }
 
     /**
-     * Parses ResultSet and returns a list of relevant content ResultSet.
+     * Gets the appropriate record with a primary key or a null key
+     * @param id of object, what we get from database
+     * @return object from database
+     * @throws PersistException my class of exception, abstracted from relational databases
      */
-  //  protected abstract List<T> parseResultSet(Session session) throws PersistException;
-
     @Override
     public T getByKey(Serializable id) throws PersistException {
         Class classT = getPersistentClass();
@@ -78,7 +58,11 @@ public abstract class BaseDbDao<T> implements GenericDao<T> {
         return t;
     }
 
-
+    /**
+     * Method for delete object from database
+     * @param t - object of entity for delete
+     * @throws PersistException my class of exception, abstracted from relational databases
+     */
     @Override
     public void delete(T t) throws PersistException {
         try {
@@ -91,6 +75,12 @@ public abstract class BaseDbDao<T> implements GenericDao<T> {
         }
     }
 
+    /**
+     * load the appropriate record with a primary key
+     * @param id of object, what we get from database
+     * @return object from database or objectnotfoundexception if object not consist in database
+     * @throws PersistException my class of exception, abstracted from relational databases
+     */
     public T load(Serializable id) throws PersistException {
         Class classT = getPersistentClass();
         logger.info("Load "+ classT + " by id: " + id);
@@ -107,12 +97,19 @@ public abstract class BaseDbDao<T> implements GenericDao<T> {
         return t;
     }
 
+    /**
+     * Gets the object by name parameter
+     * @param fieldValue is value of name parameter
+     * @return object from database
+     * @throws PersistException my class of exception, abstracted from relational databases
+     */
     public T getByCriterria(String fieldValue) throws PersistException {
         T t = null;
         Class classT = getPersistentClass();
         try {
             Session session = getSession();
             Criteria criteria = session.createCriteria(getPersistentClass());
+            criteria.setCacheable(true);
             t = (T) criteria.add(Restrictions.eq("name", fieldValue)).uniqueResult();
         } catch (HibernateException e) {
             logger.error("Error getByCriteria (Name)in Dao " + e);
@@ -121,11 +118,17 @@ public abstract class BaseDbDao<T> implements GenericDao<T> {
         return t;
     }
 
+    /**
+     * Load All proxy objects from database
+     * @return list<T> objects
+     * @throws PersistException my class of exception, abstracted from relational databases
+     */
     public List<T> loadAll() throws PersistException {
         List<T> tAll;
         try {
             Session session = getSession();
             Criteria criteria = session.createCriteria(getPersistentClass());
+            criteria.setCacheable(true);
             tAll = criteria.list();
         } catch (HibernateException e) {
             logger.error("Error loadAll " + getPersistentClass() + " in Dao" + e);
@@ -134,6 +137,7 @@ public abstract class BaseDbDao<T> implements GenericDao<T> {
         return tAll;
     }
 
+    /** It creates a new entry, the corresponding object object */
     @Override
     public void add(T object) throws PersistException {
 
@@ -148,6 +152,11 @@ public abstract class BaseDbDao<T> implements GenericDao<T> {
         }
     }
 
+    /**
+     * Method for update object persistence in database
+     * @param object - object entity for update persistence in database
+     * @throws PersistException my class of exception, abstracted from relational databases
+     */
 
     @Override
     public void update(T object) throws PersistException {
@@ -159,17 +168,12 @@ public abstract class BaseDbDao<T> implements GenericDao<T> {
             session.update(object);
             logger.info("Update:" + object);
         } catch (HibernateException e) {
-            logger.error(DaoConstants.Const.ERROR_UPDATE_ENTITY, e);
+            logger.error("Error update ENTITY in Dao. "+ e);
             throw new PersistException(e);
         }
     }
 
     private Class getPersistentClass() {
         return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-    }
-
-    @Override
-    public void cleanSession(Boolean needClean) {
-       HibernateUtil.getHibernateUtil().cleanSession(needClean);
     }
 }

@@ -38,13 +38,15 @@ public class NewsDaoImpl extends BaseDbDao<News> implements INewsDao {
         return new java.sql.Date(date.getTime());
     }
 
+    /** Gets the the appropriate List<News> by author value parameter */
     @Override
     public List<News> getNewsByAuthor(String author) throws PersistException {
         List<News> t = null;
         try {
             Session session = getSession();
             Criteria criteria = session.createCriteria(pojos.News.class);
-            t = (List<News>) criteria.add(Restrictions.eq("author", author)).uniqueResult();
+            criteria.setCacheable(true);
+            t = (List<News>) criteria.add(Restrictions.eq("author", author)).list();
         } catch (HibernateException e) {
             logger.error("Error getNewsByAuthor NEWS in Dao " + e);
             throw new PersistException(e);
@@ -52,11 +54,14 @@ public class NewsDaoImpl extends BaseDbDao<News> implements INewsDao {
         return (List<News>) t;
     }
 
+    /** Gets the the appropriate News by title value parameter */
+    @Override
     public News getNewsByTitle(String title) throws PersistException {
         News t = null;
         try {
             Session session = getSession();
             Criteria criteria = session.createCriteria(pojos.News.class);
+            criteria.setCacheable(true);
             t = (News) criteria.add(Restrictions.eq("title", title)).list().get(1);
         } catch (HibernateException e) {
             logger.error("Error getNewsByTitle NEWS in Dao " + e);
@@ -65,6 +70,25 @@ public class NewsDaoImpl extends BaseDbDao<News> implements INewsDao {
         return t;
     }
 
+    /** Gets the the appropriate List<News> by period */
+    @Override
+    public List<News> getNewsByPeriod(Integer first, Integer second) throws PersistException {
+        List<News> t = null;
+        try {
+            Session session = getSession();
+            Criteria criteria = session.createCriteria(pojos.News.class);
+            criteria.setCacheable(true);
+            criteria.setFirstResult(first);
+            criteria.setMaxResults(second);
+            t = (List<News>) criteria.list();
+        } catch (HibernateException e) {
+            logger.error("Error getNewsByAuthor NEWS in Dao " + e);
+            throw new PersistException(e);
+    }
+        return (List<News>) t;
+    }
+
+    /** Gets the the appropriate List<Comment> by date value parameter */
     @Override
     public List<News> getNewsByDate(Date date) throws DataAccessException {
         return null;

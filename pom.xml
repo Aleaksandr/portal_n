@@ -23,6 +23,9 @@
         <cglib.version>3.1</cglib.version>
         <dbcp.version>1.4</dbcp.version>
         <compiler-plugin.version>3.3</compiler-plugin.version>
+        <spring.version>4.1.4.RELEASE</spring.version>
+        <spring.security>3.2.5.RELEASE</spring.security>
+
     </properties>
 
 
@@ -52,12 +55,6 @@
         </dependency>
 
         <!--Hibernate-->
-        <!--<dependency>-->
-            <!--<groupId>org.hibernate</groupId>-->
-            <!--<artifactId>ejb3-persistence</artifactId>-->
-            <!--<version>${ejb3.version}</version>-->
-        <!--</dependency>-->
-
         <!-- Hibernate-CORE dependency -->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -65,12 +62,60 @@
             <version>${hibernate.version}</version>
         </dependency>
 
-        <!-- Hibernate-ENTITY-MANAGER dependency -->
-        <!--<dependency>-->
-            <!--<groupId>org.hibernate</groupId>-->
-            <!--<artifactId>hibernate-entitymanager</artifactId>-->
-            <!--<version>${hibernate.version}</version>-->
-        <!--</dependency>-->
+        <!--Spring-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
         <!--MySQL-->
         <dependency>

@@ -9,6 +9,7 @@ import com.portal.util.Paths;
 import exception.DataAccessException;
 import exeption.ModelException;
 import org.apache.log4j.Logger;
+import pojos.UserDetail;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
@@ -25,6 +26,7 @@ public class CheckCommand extends FrontCommand {
         String message;
         HttpSession session = request.getSession();
         User userIn;
+        UserDetail usDet;
         String type = null;
         String emailLogin = request.getParameter("email");
         String passLogin = request.getParameter("pass");

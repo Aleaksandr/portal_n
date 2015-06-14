@@ -43,7 +43,8 @@ public class News implements Serializable {
     @Column (name = "item", columnDefinition="text")
     private String item;
 
-    @OneToMany (mappedBy = "nw", cascade = CascadeType.ALL)
+    @OneToMany (fetch = FetchType.LAZY, mappedBy = "nw", cascade = CascadeType.ALL)
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private List<Comment> comments;
 
     public News() {

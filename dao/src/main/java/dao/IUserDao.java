@@ -11,5 +11,6 @@ import exception.DataAccessException;
 
 public interface IUserDao extends GenericDao<User> {
 
+    /** Gets the the appropriate User by email parametr value */
     User getUserByEmail(String email) throws DataAccessException, PersistException;
 }

@@ -8,15 +8,11 @@ import com.portal.actionfactory.BlManager;
 import com.portal.actionfactory.FrontCommand;
 import com.portal.util.Attributes;
 import com.portal.util.Paths;
-import exeption.ModelException;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +26,7 @@ public class AddCommentCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         logger.info("AddCommentCommand begin");
+        BlManager.getCommentManager().cleanSession(true);
 
         HttpSession session = request.getSession();
 

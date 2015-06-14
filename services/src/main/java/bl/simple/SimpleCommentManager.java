@@ -54,16 +54,7 @@ public class SimpleCommentManager extends AbstractEntityManager<Comment> impleme
 			transaction.rollback();
 		} catch (PersistException e) {
 			logger.error(e);
-		} finally {
-			//sessionStatus.set(true);
-			//getDao().clearSession(sessionStatus);
-
 		}
 		return cList;
 	}
-
-	/*@Override
-	public void clearSession(ThreadLocal sessionStatus) {
-		getDao().clearSession(sessionStatus);
-	}*/
 }

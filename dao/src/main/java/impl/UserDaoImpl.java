@@ -22,13 +22,11 @@ public class UserDaoImpl extends BaseDbDao<User> implements IUserDao {
 
     private static Logger logger = Logger.getLogger(UserDaoImpl.class);
 
-    protected String attachmentsTable = "User";
-
     public UserDaoImpl() {
         super();
     }
 
-
+    /** Gets the the appropriate User by email parametr value */
     @Override
     public User getUserByEmail(String email) throws PersistException {
         if (email == null) {
@@ -41,6 +39,7 @@ public class UserDaoImpl extends BaseDbDao<User> implements IUserDao {
             Session session = getSession();
             Query query = session.createQuery(hql);
             query.setParameter("targetemail", email);
+            query.setCacheable(true);
             result = (User)query.uniqueResult();
             logger.info("Get user by email: " + result);
         } catch (HibernateException e) {
@@ -53,5 +52,4 @@ public class UserDaoImpl extends BaseDbDao<User> implements IUserDao {
         }
         return result;
     }
-
 }

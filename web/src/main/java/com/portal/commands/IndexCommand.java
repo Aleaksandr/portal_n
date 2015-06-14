@@ -1,14 +1,16 @@
 package com.portal.commands;
 
+import com.portal.util.Paginator;
 import com.portal.util.Attributes;
+import exception.DataAccessException;
 import exception.PersistException;
 import pojos.News;
 import com.portal.actionfactory.BlManager;
 import com.portal.actionfactory.FrontCommand;
 import com.portal.util.Paths;
 import exception.DaoException;
-import exeption.ModelException;
 import org.apache.log4j.Logger;
+import util.Const;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
@@ -26,18 +28,34 @@ public class IndexCommand extends FrontCommand {
     Logger logger = Logger.getLogger(IndexCommand.class);
 
     @Override
-    public void process() throws ServletException, IOException, DaoException {
+    public void process() throws ServletException, IOException, DaoException, DataAccessException {
         HttpSession session = request.getSession();
+        Paginator paginator;
         News newsitem;
-        List newslist;
+        List newslist = null;
         List userlist;
         List commentListByItem;
+        String pageCommand;
+        Integer pageFirst;
+
+
+        /**
+         * Paging
+         */
+        pageCommand = request.getParameter("page");
+        paginator = Paginator.getInstance(session);
+        try {
+            newslist = paginator.getList(pageCommand);
+        } catch (PersistException e) {
+            logger.error("Get list exception: "+ e);
+        }
+
 
         try {
             /**
              * Load News and User lists
              */
-            newslist = BlManager.getNewsManager().loadAll();
+
             userlist = BlManager.getUserManager().loadAll();
 
             /**
@@ -45,7 +63,8 @@ public class IndexCommand extends FrontCommand {
              */
             String item_id = (request.getParameter(Attributes.ITEMID) == null)?
                     (String) session.getAttribute(Attributes.ITEMID):request.getParameter(Attributes.ITEMID);
-            News firstEl = (News)newslist.get(1);
+            assert newslist != null;
+            News firstEl = (News)newslist.get(0);
             item_id = (item_id == null)? String.valueOf(firstEl.getId()): item_id;
 
             /**

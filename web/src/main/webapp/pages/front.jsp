@@ -51,7 +51,16 @@
                                 <a class="list-group-item" href="FrontController?item_id=${nw.id}">${nw.title4menu}</a>
                             </c:forEach>
                         </ul>
+                        <form style="width: 49%" action="FrontController" method="post">
+                            <button style="width: 100%" class="btn btn-default" id="prev">Prev</button>
+                            <input type="hidden" name="page" value="prev">
+                        </form>
+                        <form style="width: 49%" action="FrontController" method="post">
+                            <button style="width: 100%" class="btn btn-default" id="next">Next</button>
+                            <input type="hidden" name="page" value="next">
+                        </form>
                     </div>
+
                 </td>
                 <td class="item">
                     <div class="panel panel-default">
@@ -62,13 +71,15 @@
                             <p>${newsitem.item}</p>
                             <c:if test="${usertype eq 'ADMINISTRATOR'}">
                                 <form action="FrontController" method="post">
-                                    <input type="hidden" name="<%=Attributes.COMMAND%>" value="<%=DelNewsCommand.NAME%>">
+                                    <input type="hidden" name="<%=Attributes.COMMAND%>"
+                                           value="<%=DelNewsCommand.NAME%>">
                                     <input type="hidden" name="comId" value="${comment.id}">
                                     <input class="btn btn-default" type="submit" name="deleteitem"
                                            value="Delete News">
                                 </form>
                                 <form action="FrontController" method="post">
-                                    <input type="hidden" name="<%=Attributes.COMMAND%>" value="<%=FormNewsUpdCommand.NAME%>">
+                                    <input type="hidden" name="<%=Attributes.COMMAND%>"
+                                           value="<%=FormNewsUpdCommand.NAME%>">
                                     <input class="btn btn-default" type="submit" name="correctitem"
                                            value="Correct">
                                 </form>
@@ -121,13 +132,15 @@
                                     <footer>
                                         <c:if test="${usertype eq 'ADMINISTRATOR'}">
                                             <form action="FrontController" method="post">
-                                                <input type="hidden" name="<%=Attributes.COMMAND%>" value="<%=DelCommentCommand.NAME%>">
+                                                <input type="hidden" name="<%=Attributes.COMMAND%>"
+                                                       value="<%=DelCommentCommand.NAME%>">
                                                 <input type="hidden" name="comId" value="${comment.id}">
                                                 <input class="btn btn-default" type="submit" name="deletecomment"
                                                        value="Delete comment">
                                             </form>
                                             <form action="FrontController" method="post">
-                                                <input type="hidden" name="<%=Attributes.COMMAND%>" value="<%=FormCommentUpdCommand.NAME%>">
+                                                <input type="hidden" name="<%=Attributes.COMMAND%>"
+                                                       value="<%=FormCommentUpdCommand.NAME%>">
                                                 <input type="hidden" name="comId" value="${comment.id}">
                                                 <input class="btn btn-default" type="submit" name="correctcomment"
                                                        value="Correct">
@@ -136,7 +149,7 @@
                                         <p class="text-right">
                                             <c:forEach var="comuser" items="${userlist}">
                                                 <c:if test="${comment.user_id == comuser.id}">
-                                                    ${comuser.email}
+                                                    ${comuser.userDetail}
                                                 </c:if>
                                             </c:forEach>
                                         </p>

@@ -9,10 +9,12 @@ import com.portal.util.Paths;
 import exception.DataAccessException;
 import exeption.ModelException;
 import org.apache.log4j.Logger;
+import pojos.UserDetail;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Date;
 
 
 public class AddUserCommand extends FrontCommand {
@@ -29,11 +31,21 @@ public class AddUserCommand extends FrontCommand {
         User regUser = new User();
         String emailReg = request.getParameter("email");
         String passReg = request.getParameter("pass");
+        String fname = request.getParameter("fname");
+        String sname = request.getParameter("sname");
 
         regUser.setId(null);
         regUser.setEmail(emailReg);
         regUser.setPass(passReg);
         regUser.setRole("user");
+
+        UserDetail usDet = new UserDetail();
+        usDet.setBDAte(new Date());
+        usDet.setFName(fname);
+        usDet.setSName(sname);
+        usDet.setUser(regUser);
+
+        regUser.setUserDetail(usDet);
 
         try {
             if(BlManager.getUserManager().getUserByEmail(emailReg) != null){

@@ -25,12 +25,9 @@ public class HibernateUtil {
 
     private static Logger logger = Logger.getLogger(HibernateUtil.class);
 
-   // private final ThreadLocal needClean = new ThreadLocal(){{set(new Boolean(false));}};
-
+    // private final ThreadLocal needClean = new ThreadLocal(){{set(new Boolean(false));}};
     private static HibernateUtil util = null;
-
     private final ThreadLocal sessions = new ThreadLocal();
-
     private SessionFactory sessionFactory = null;
 
     private HibernateUtil() {
@@ -43,10 +40,12 @@ public class HibernateUtil {
             throw new ExceptionInInitializerError(ex);
         }
     }
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
 
+
+    /**
+     * Get or open new Session method
+     * @return
+     */
     public Session getSession() {
         Session session = (Session) sessions.get();
         if (session == null) {
@@ -54,10 +53,8 @@ public class HibernateUtil {
             logger.info("Session NewSession!!!");
             sessions.set(session);
         }
-        logger.info("Session GetSession!!!");
         return session;
     }
-
 
     public static synchronized HibernateUtil getHibernateUtil(){
         if (util == null){
@@ -66,11 +63,14 @@ public class HibernateUtil {
         return util;
     }
 
+    /**
+     * Method for clean current session
+     * @param needClean
+     */
     public void cleanSession(Boolean needClean) {
         if (needClean) {
             logger.info("Session CLEAN!");
             getSession().clear();
         }
     }
-
 }

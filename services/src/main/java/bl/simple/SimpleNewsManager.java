@@ -1,10 +1,13 @@
 package bl.simple;
 
 import dao.GenericDao;
+import exception.PersistException;
 import impl.DaoFactoryImpl;
 import impl.NewsDaoImpl;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import pojos.Comment;
 import pojos.News;
 import bl.AbstractEntityManager;
 import bl.NewsManager;
@@ -41,13 +44,58 @@ public class SimpleNewsManager extends AbstractEntityManager<News> implements Ne
 	}
 
 	@Override
-	public List<News> getByDate(Date date) throws ModelException, DataAccessException {
+	public List<News> getNewsByAuthor(String author) throws DataAccessException {
+		List<News> nList = null;
+		try {
+			session = getDao().getSession();
+			transaction = session.beginTransaction();
+			nList = getDao().getNewsByAuthor(author);
+			transaction.commit();
+		} catch (HibernateException e) {
+			logger.error("Error in BL GetCommentBy Item from table " + e);
+			transaction.rollback();
+		} catch (PersistException e) {
+			logger.error(e);
+		}
+		return nList;
+	}
+
+	@Override
+	public List<News> getNewsByDate(Date date) {
 		return null;
 	}
 
+	@Override
+	public News getNewsByTitle(String title) throws DataAccessException {
+		News nw = null;
+		try {
+			session = getDao().getSession();
+			transaction = session.beginTransaction();
+			nw = getDao().getNewsByTitle(title);
+			transaction.commit();
+		} catch (HibernateException e) {
+			logger.error("Error in BL GetCommentBy Item from table " + e);
+			transaction.rollback();
+		} catch (PersistException e) {
+			logger.error(e);
+		}
+		return nw;
+	}
 
-	/*@Override
-	public void clearSession(ThreadLocal sessionStatus) {
-		getDao().clearSession(sessionStatus);
-	}*/
+	@Override
+	public List<News> getNewsByPeriod(Integer first, Integer second) throws DataAccessException {
+		List<News> nList = null;
+		try {
+			session = getDao().getSession();
+			transaction = session.beginTransaction();
+			nList = getDao().getNewsByPeriod(first, second);
+			transaction.commit();
+		} catch (HibernateException e) {
+			logger.error("Error in BL GetCommentBy Item from table " + e);
+			transaction.rollback();
+		} catch (PersistException e) {
+			logger.error(e);
+		}
+		return nList;
+	}
 }

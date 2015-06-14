@@ -21,6 +21,8 @@
         <input type="hidden" name="<%=Attributes.COMMAND%>" value="<%=IndexCommand.NAME%>">
         <p>Loggin (E-mail): ${user.email}</p>
         <p>Password: ${user.pass}</p>
+        <p>Name : ${usDet.getFName()}</p>
+        <p>Surname: ${usDet.getSName()}</p>
         <input type="submit" name="login" value="Ok">
     </form>
     <form action="FrontController" method="post">
